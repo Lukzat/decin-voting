@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL ^ E_WARNING ^ E_NOTICE);
 use Manager\AddPageManager;
 header('Content-Type: application/json');
 require __DIR__ . '/../../vendor/autoload.php';
