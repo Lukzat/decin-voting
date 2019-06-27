@@ -1,0 +1,600 @@
+<div class="animated fadeIn" style="width: 98%">
+
+    <div class="row" style="width: 90%;height: 120px" ng-keypress="enterPress($event)">
+        <div class="Navigation__wrapper">
+            <div class="Navigation__helper">
+            </div>
+            <div class="Navigation">
+                <div style="text-align: center">
+                    <div class="Container" style="display: inline-block;width: 90%">
+                        <a aria-current="page" class="Navigation__brand" href="https://idecin.cz/" style="min-width: 50px">Děčín je boží</a>
+                        <div class="Navigation__content" style="width: calc(100% - 236px)">
+                            <div class="Navigation__contentHelper">
+                            </div>
+                            <div ng-show="isDesktop" style="min-width: 200px;text-align: left" class="Navigation__breadcrumb"></div>
+                            <div ng-show="!isDesktop" style="min-width: 200px;text-align: left;margin-left: 0px;padding-left: 5px" class="Navigation__breadcrumb"><strong>Hlasování zastupitelstva</strong></div>
+                            <button type="button" class="Navigation__menuButton">Menu</button>
+        <!--
+                            <div class="Navigation__language">
+                                <button type="button" class="Navigation__languageToggle Navigation__languageToggle--cz">Česky</button>
+                                <div class="Navigation__languageDropdown">
+                                    <a aria-current="page" class="Navigation__languageDropdownItem Navigation__languageDropdownItem--cz" href="/">Česky</a>
+                                    <a class="Navigation__languageDropdownItem Navigation__languageDropdownItem--de" href="/de">Deutsch</a>
+                                    <a class="Navigation__languageDropdownItem Navigation__languageDropdownItem--en" href="/en">English</a>
+                                </div>
+                            </div>
+        -->
+                            <div class="Navigation__scroll">
+        <!--
+                                <form action="#">
+                                    <div class="Navigation__search">
+                                        <div class="input-group mb-3" style="width: 100%;margin: 0 auto;float: left">
+                                            <input ng-model="quickSearchText" type="text" class="form-control" placeholder="hledané slovo" autofocus>
+                                          <div class="input-group-append">
+                                              <button ng-click="quickSearchGo()" class="btn btn-outline-secondary" type="button">Vyhledat</button>
+                                          </div>
+                                        </div>
+                                        <button ng-click="quickSearchGo()" type="button" class="Navigation__searchIcon">Vyhledat</button>
+                                    </div>
+
+                                    <div class="Navigation__searchField">
+                                        <input type="search" class="Navigation__searchFieldInput" placeholder="Co chcete vyhledat?" value="">
+                                        <button type="button" class="Navigation__searchFieldClose">Zavřít</button>
+                                        <button type="button" class="Navigation__searchFieldConfirm">Vyhledat</button>
+                                    </div>
+
+                                    <div class="Navigation__searchResults">
+                                        <div class="Navigation__searchResultsShadow">
+                                            <div class="Navigation__searchResultsScroll">
+                                                <div>
+                                                </div>
+                                                <div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+        -->
+                                <div class="Navigation__menu" style="min-width: 278px">
+                                    <div ng-show="showSearchBarTop" style="float: left;width: calc(100% - 48px);height: 100%;margin: 0 auto;min-width: 230px">
+                                        <input focus-on="showSearchBarTop" style="height: 56px;width: calc(100% - 48px);float: left" ng-model="quickSearchText" type="text" class="form-control" placeholder="Vyhledávání celým obsahem" autofocus>
+                                    </div>
+                                    <div ng-show="!showSearchBarTop" style="text-align: left;float: left;width: calc(100% - 60px);height: 100%;margin-top: 15px;margin-left: 5px;min-width: 200px">
+                                        <strong>Hlasování zastupitelstva</strong>
+                                    </div>
+                                    <div ng-show="isDesktop" style="float: right;min-width: 48px">
+                                        <div ng-show="showSearchBarTop" style="float: left;height: 100%;margin: 0 auto;min-width: 48px">
+                                            <button style="float: right" ng-click="deactivateTopSearchBar()" type="button" class="Navigation__searchFieldClose">Vyhledat</button>
+                                        </div>
+                                        <div ng-show="!showSearchBarTop" style="float: right;height: 100%;margin: 0 auto;min-width: 48px">
+                                            <button style="float: right" ng-click="activateTopSearchBar()" type="button" class="Navigation__searchIcon">Vyhledat</button>
+                                        </div>
+                                    </div>
+                                </div>
+        <!--
+                                <div class="Navigation__menu">
+                                    <div>
+                                        <div class="Navigation__menuDropdown ">
+                                            <div class="Navigation__menuItem Navigation__menuItem--dropdown">O městě</div>
+                                            <div class="Navigation__menuDropdownContainer">
+                                                <div class="Navigation__menuDropdownShadow">
+                                                    <div class="Navigation__menuDropdownScroll">
+                                                        <div class="Navigation__menuDropdownScrollContent">
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/o-meste#informace">Informace</a>
+                                                                <a class="Navigation__menuSectionLink" title="Historie" href="/historie">Historie</a>
+                                                                <a class="Navigation__menuSectionLink" title="Základní informace" href="/zakladni-informace">Základní informace</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/o-meste#ke-stazeni">Ke stažení</a>
+                                                                <a class="Navigation__menuSectionLink" title="Turistické příručky" href="/turisticke-prirucky">Turistické příručky</a>
+                                                                <a class="Navigation__menuSectionLink" title="Časopis pro turisty" href="/casopis-pro-turisty">Časopis pro turisty</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="Navigation__menuDropdown ">
+                                            <div class="Navigation__menuItem Navigation__menuItem--dropdown">Turistika</div>
+                                            <div class="Navigation__menuDropdownContainer">
+                                                <div class="Navigation__menuDropdownShadow">
+                                                    <div class="Navigation__menuDropdownScroll">
+                                                        <div class="Navigation__menuDropdownScrollContent">
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/turistika#oblibene-vylety">Oblíbené výlety</a>
+                                                                <a class="Navigation__menuSectionLink" title="Pravčická brána" href="/pravcicka-brana">Pravčická brána</a>
+                                                                <a class="Navigation__menuSectionLink" title="Kyjovské údolí" href="/kyjovske-udoli">Kyjovské údolí</a>
+                                                                <a class="Navigation__menuSectionLink" title="Belvedér" href="/belveder">Belvedér</a>
+                                                                <a class="Navigation__menuSectionLink" title="Dolský mlýn" href="/dolsky-mlyn">Dolský mlýn</a>
+                                                                <a class="Navigation__menuSectionLink" title="Edmundova a Divoká soutěska" href="/edmundova-a-divoka-souteska">Edmundova a Divoká soutěska</a>
+                                                                <a class="Navigation__menuSectionLink" title="Výlet do Drážďan" href="/vylet-do-drazdan">Výlet do Drážďan</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/turistika#pesi">Pěší</a>
+                                                                <a class="Navigation__menuSectionLink" title="Unikátní vyhlídky Jetřichovic" href="/unikatni-vyhlidky-jetrichovic">Unikátní vyhlídky Jetřichovic</a>
+                                                                <a class="Navigation__menuSectionLink" title="Přes hranice" href="/pres-hranice">Přes hranice</a>
+                                                                <a class="Navigation__menuSectionLink" title="Nejkrásnější výhledy na Labe" href="/nejkrasnejsi-vyhledy-na-labe">Nejkrásnější výhledy na Labe</a>
+                                                                <a class="Navigation__menuSectionLink" title="Vzhůru na Pastýřskou stěnu" href="/vzhuru-na-pastyrskou-stenu">Vzhůru na Pastýřskou stěnu</a>
+                                                            </div><div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/turistika#rozhledny">Rozhledny</a>
+                                                                <a class="Navigation__menuSectionLink" title="Rozhledna Janov" href="/rozhledna-janov">Rozhledna Janov</a>
+                                                                <a class="Navigation__menuSectionLink" title="Děčínský Sněžník" href="/decinsky-sneznik">Děčínský Sněžník</a>
+                                                                <a class="Navigation__menuSectionLink" title="Vyhlídka Růženka" href="/vyhlidka-ruzenka">Vyhlídka Růženka</a>
+                                                                <a class="Navigation__menuSectionLink" title="Vlčí hora" href="/vlci-hora">Vlčí hora</a>
+                                                                <a class="Navigation__menuSectionLink" title="Sokolí vrch" href="/sokoli-vrch">Sokolí vrch</a>
+                                                                <a class="Navigation__menuSectionLink" title="Velký Chlum" href="/velky-chlum">Velký Chlum</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/turistika#doprava">Doprava</a>
+                                                                <a class="Navigation__menuSectionLink" title="Jízdenka Labe/Elbe" href="/jizdenka-labe-elbe">Jízdenka Labe/Elbe</a>
+                                                                <a class="Navigation__menuSectionLink" title="Výletní loď" href="/vyletni-lod">Výletní loď</a>
+                                                                <a class="Navigation__menuSectionLink" title="Turistická linka národním parkem" href="/turisticka-linka-narodnim-parkem">Turistická linka národním parkem</a>
+                                                                <a class="Navigation__menuSectionLink" title="Cyklobus na Maxičky" href="/cyklobus-na-maxicky">Cyklobus na Maxičky</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/turistika#privozy">Přívozy</a>
+                                                                <a class="Navigation__menuSectionLink" title="Přívoz Hřensko – Schöna" href="/privoz-hrensko-schona">Přívoz Hřensko – Schöna</a>
+                                                                <a class="Navigation__menuSectionLink" title="Přívoz Velké Březno – Povrly" href="/privoz-velke-brezno-povrly">Přívoz Velké Březno – Povrly</a>
+                                                                <a class="Navigation__menuSectionLink" title="Přívoz Dolní Žleb" href="/privoz-dolni-zleb">Přívoz Dolní Žleb</a>
+                                                                <a class="Navigation__menuSectionLink" title="Přívoz Svádov – Neštěmice" href="/privoz-svadov-nestemice">Přívoz Svádov – Neštěmice</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="Navigation__menuDropdown ">
+                                            <div class="Navigation__menuItem Navigation__menuItem--dropdown">Kultura</div>
+                                            <div class="Navigation__menuDropdownContainer">
+                                                <div class="Navigation__menuDropdownShadow">
+                                                    <div class="Navigation__menuDropdownScroll">
+                                                        <div class="Navigation__menuDropdownScrollContent">
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/kultura#zabava">Zábava</a>
+                                                                <a class="Navigation__menuSectionLink" title="Městské slavnosti" href="/mestske-slavnosti">Městské slavnosti</a>
+                                                                <a class="Navigation__menuSectionLink" title="Kino Sněžník" href="/kino-sneznik">Kino Sněžník</a>
+                                                                <a class="Navigation__menuSectionLink" title="Divadlo" href="/divadlo">Divadlo</a>
+                                                                <a class="Navigation__menuSectionLink" title="Městská knihovna" href="/mestska-knihovna">Městská knihovna</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/kultura#pamatky">Památky</a>
+                                                                <a class="Navigation__menuSectionLink" title="Kostely" href="/kostely">Kostely</a>
+                                                                <a class="Navigation__menuSectionLink" title="Zámek Děčín" href="/zamek-decin">Zámek Děčín</a>
+                                                                <a class="Navigation__menuSectionLink" title="Oblastní muzeum Děčín" href="/oblastni-muzeum-decin">Oblastní muzeum Děčín</a>
+                                                                <a class="Navigation__menuSectionLink" title="Hladový kámen" href="/hladovy-kamen">Hladový kámen</a>
+                                                                <a class="Navigation__menuSectionLink" title="Mosty" href="/mosty">Mosty</a>
+                                                                <a class="Navigation__menuSectionLink" title="Synagoga" href="/synagoga">Synagoga</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/kultura#rodina">Rodina</a>
+                                                                <a class="Navigation__menuSectionLink" title="Zoologická zahrada" href="/zoologicka-zahrada">Zoologická zahrada</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="Navigation__menuDropdown ">
+                                            <div class="Navigation__menuItem Navigation__menuItem--dropdown">Sport</div>
+                                            <div class="Navigation__menuDropdownContainer">
+                                                <div class="Navigation__menuDropdownShadow">
+                                                    <div class="Navigation__menuDropdownScroll">
+                                                        <div class="Navigation__menuDropdownScrollContent">
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/sport#vodni-sporty">Vodní sporty</a>
+                                                                <a class="Navigation__menuSectionLink" title="Koupaliště v okolí" href="/koupaliste-v-okoli">Koupaliště v okolí</a>
+                                                                <a class="Navigation__menuSectionLink" title="Raftem po řece" href="/raftem-po-rece">Raftem po řece</a>
+                                                                <a class="Navigation__menuSectionLink" title="Aquapark Děčín" href="/aquapark-decin">Aquapark Děčín</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/sport#cyklistika">Cyklistika</a>
+                                                                <a class="Navigation__menuSectionLink" title="Českosaským Švýcarskem na kole" href="/ceskosaskym-svycarskem-na-kole">Českosaským Švýcarskem na kole</a>
+                                                                <a class="Navigation__menuSectionLink" title="Pod dohledem stolových hor" href="/pod-dohledem-stolovych-hor">Pod dohledem stolových hor</a>
+                                                                <a class="Navigation__menuSectionLink" title="Na kole Labským údolím" href="/na-kole-labskym-udolim">Na kole Labským údolím</a>
+                                                                <a class="Navigation__menuSectionLink" title="Projeďte se skalními městy" href="/projedte-se-skalnimi-mesty">Projeďte se skalními městy</a>
+                                                                <a class="Navigation__menuSectionLink" title="Labská stezka" href="/labska-stezka">Labská stezka</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/sport#bezecke-trasy">Běžecké trasy</a>
+                                                                <a class="Navigation__menuSectionLink" title="Běžecký trail" href="/bezecky-trail">Běžecký trail</a>
+                                                                <a class="Navigation__menuSectionLink" title="Nordic walking &amp; running" href="/nordic-walking-running">Nordic walking &amp; running</a>
+                                                                <a class="Navigation__menuSectionLink" title="Běžecké trasy na Kvádrberku" href="/bezecke-trasy-na-kvadrberku">Běžecké trasy na Kvádrberku</a>
+                                                            </div>
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/sport#lezeni">Lezení</a>
+                                                                <a class="Navigation__menuSectionLink" title="Bouldering na Sněžníku" href="/bouldering-na-snezniku">Bouldering na Sněžníku</a>
+                                                                <a class="Navigation__menuSectionLink" title="Vrabinec" href="/vrabinec">Vrabinec</a>
+                                                                <a class="Navigation__menuSectionLink" title="Labský kaňon" href="/labsky-kanon">Labský kaňon</a>
+                                                                <a class="Navigation__menuSectionLink" title="Tisá" href="/tisa">Tisá</a>
+                                                                <a class="Navigation__menuSectionLink" title="Via Ferrata" href="/via-ferrata">Via Ferrata</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="Navigation__menuDropdown ">
+                                            <div class="Navigation__menuItem Navigation__menuItem--dropdown">Kontakt</div>
+                                            <div class="Navigation__menuDropdownContainer">
+                                                <div class="Navigation__menuDropdownShadow">
+                                                    <div class="Navigation__menuDropdownScroll">
+                                                        <div class="Navigation__menuDropdownScrollContent">
+                                                            <div class="Navigation__menuSection">
+                                                                <a class="Navigation__menuSectionTitle" href="/kontakt#infocentra">Infocentra</a>
+                                                                <a class="Navigation__menuSectionLink" title="Infocentrum Hlavní nádraží" href="/infocentrum-hlavni-nadrazi">Infocentrum Hlavní nádraží</a>
+                                                                <a class="Navigation__menuSectionLink" title="Infocentrum Knihovna" href="/infocentrum-knihovna">Infocentrum Knihovna</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+        -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="Navigation__breadcrumbHelper">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div ng-show="ShowContentSearch" ng-keypress="enterPress($event)">
+            <div class="row" ng-show="ShowAdvancedSearch" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
+                <div class="custom-card" data-v-3a09080e="" style="max-height: 300px;background-color: #DBE7F3;border-radius: 0;width: calc(30% - 4px);min-width: 360px;margin: 1px;margin-top: 20px;">
+                    <div style="min-width: 318px" class="NewsList__title">Aktuální jednání zastupitelstva {{latestDate * 1000 | date:'dd-MM-yyyy'}}</div>
+                    <div class="row" style="max-height: 260px;overflow-y: scroll;position: relative;top: -52px">
+                        <div style="" ng-repeat="item in newSideSessions">
+                            <p style="padding: 0;margin: 0"><a style="cursor:pointer;color:blue;text-decoration:underline"
+                                ng-click="getOneSearchResult(item.id)">{{item.type}}</a></p>
+                            <p style="padding: 0;margin: 0">{{item.description}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="custom-card" data-v-3a09080e="" style="border: 1px solid #D9D9D9;border-radius: 0;width: 50%;min-width: 360px;margin: 1px;margin-top: 20px;">
+                    <div class="NewsList__title2">Podrobné vyhledávání</div>
+                    
+                    <div class="row">
+                        <div style="width: 50%;float: left;min-width: 310px">
+                            <div class="row" data-v-3a09080e="">
+            
+                                <div class="col-md-6" data-v-3a09080e="" style="width: 53.5%;min-width: 320px">
+                                    <div class="input-box" data-v-3a09080e="">
+                                        <label data-v-3a09080e="">Zastupitelstva:</label>
+                                        <div ng-show="isDesktop" tabindex="-1" class="multiselect" data-v-3a09080e="">
+                                            <div class="multiselect__select">
+
+                                            </div>
+                                            <select ng-change="sittingValueChanged()" style="position: absolute" chosen multiple ng-model="Sitting" name="fieldOfSessions" id="2" width="300">
+                                                <option ng-repeat="item in SittingsArray" value="{{item.id}}">{{item.name}} -- {{item.start}}</option>
+                                            </select>
+                                            <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
+                                                <ul class="multiselect__content" style="display: block;"> 
+                                                    <li style="display: none;">
+                                                        <span class="multiselect__option">No elements found. Consider changing the search query.</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="multiselect__option">List is empty.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div ng-show="isMobile" tabindex="-1" class="multiselect" data-v-3a09080e="">
+                                            <ui-select ng-change="sittingValueChanged()" multiple ng-model="$parent.Sitting" theme="bootstrap" close-on-select="false" style="width: 300px;" title="Vyberte jednu z možností">
+                                                <ui-select-match placeholder="Vyberte jednu z možností">{{$item.name}} -- {{$item.start}}</ui-select-match>
+                                                <ui-select-choices repeat="item.id as item in SittingsArray">
+                                                  {{item.name}} -- {{item.start}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+            <!--
+                                <div class="col-md-6" data-v-3a09080e="" style="width: 25%;min-width: 140px">
+                                    <div class="input-box" data-v-3a09080e="">
+                                        <label data-v-3a09080e="">Měsíc:</label>
+                                        <div tabindex="-1" class="multiselect" data-v-3a09080e="">
+                                            <div class="multiselect__select">
+
+                                            </div>
+                                            <select ng-change="monthValueChanged()" style="position: absolute" chosen multiple ng-model="monthChosen" name="fieldOfMonthChoose" id="16" width="140">
+                                                <option ng-repeat="item in MonthsAvailable" value="{{item.value}}">{{item.name}}</option>
+                                            </select>
+                                            <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
+                                                <ul class="multiselect__content" style="display: block;">  
+                                                    <li style="display: none;">
+                                                        <span class="multiselect__option">No elements found. Consider changing the search query.</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="multiselect__option">List is empty.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            -->
+                            </div>
+                            <div class="row" data-v-3a09080e="">
+                                <div class="col-md-6" data-v-3a09080e="" style="width: 53.5%;min-width: 320px">
+                                    <div class="input-box" data-v-3a09080e="">
+                                        <label data-v-3a09080e="">Body programu:</label>
+                                        <div ng-show="isDesktop" tabindex="-1" class="multiselect" data-v-3a09080e="">
+                                            <div class="multiselect__select">
+
+                                            </div>
+                                            <div class="multiselect__tags">
+                                                <div class="multiselect__tags-wrap" style="display: none;">
+
+                                                </div> <!---->
+                                                <div class="multiselect__spinner" style="display: none;">
+
+                                                </div>
+                                                <select ng-change="sessionValueChanged()" style="position: absolute" chosen multiple ng-model="Session" name="fieldOfSessions" id="2" width="300">
+                                                    <option ng-repeat="item in uniqueSessionNames" value="{{item}}">{{item}}</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                        <div ng-show="isMobile" tabindex="-1" class="multiselect" data-v-3a09080e="">
+                                            <ui-select ng-change="sessionValueChanged()" multiple ng-model="$parent.Session" theme="bootstrap" close-on-select="false" style="width: 300px;" title="Vyberte jednu z možností">
+                                                <ui-select-match placeholder="Vyberte jednu z možností">{{$item}}</ui-select-match>
+                                                <ui-select-choices repeat="item in uniqueSessionNames">
+                                                  {{item}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 50%;float: left">
+                            <div class="row" data-v-3a09080e="">
+                                <div class="col-md-6" data-v-3a09080e="" style="width: 25%;min-width: 220px">
+                                    <div class="input-box" data-v-3a09080e="">
+                                        <label data-v-3a09080e="">Politické strany:</label>
+                                        <div ng-show="isMobile">
+                                            <ui-select ng-change="politickaStranaChanged()" multiple ng-model="$parent.pGroups" theme="bootstrap" close-on-select="false" style="width: 300px;" title="Vyberte jednu z možností">
+                                                <ui-select-match placeholder="Vyberte jednu z možností">{{$item}}</ui-select-match>
+                                                <ui-select-choices repeat="item in uniquePoliticalGroups">
+                                                  {{item}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <div ng-show="isDesktop" tabindex="-1" class="multiselect" data-v-3a09080e="">
+                                            <div class="multiselect__select">
+
+                                            </div>
+                                            <select ng-change="politickaStranaChanged()" style="position: absolute" chosen multiple ng-model="pGroups" name="fieldOfVoters" id="1" width="300">
+                                                <option ng-repeat="pGroup in uniquePoliticalGroups" value="{{pGroup}}">{{pGroup}}</option>
+                                            </select>
+                                            <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
+                                                <ul class="multiselect__content" style="display: block;"> <!---->  
+                                                    <li style="display: none;">
+                                                        <span class="multiselect__option">No elements found. Consider changing the search query.</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="multiselect__option">List is empty.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" data-v-3a09080e="">
+                                <div class="col-md-6" data-v-3a09080e="" style="width: 25%;min-width: 220px">
+                                    <div class="input-box" data-v-3a09080e="">
+                                        <label data-v-3a09080e="">Jméno a příjmení:</label>
+                                        <div ng-show="isDesktop" tabindex="-1" class="multiselect" data-v-3a09080e="">
+                                            <div class="multiselect__select">
+
+                                            </div>
+                                            <select ng-change="" style="position: absolute" chosen multiple ng-model="NameAndSurname" name="fieldOfVoters" id="1" width="300">
+                                                <option ng-repeat="name in uniquePeopleNames" value="{{name}}">{{name}}</option>
+                                            </select>
+                                            <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
+                                                <ul class="multiselect__content" style="display: block;"> <!---->  
+                                                    <li style="display: none;">
+                                                        <span class="multiselect__option">No elements found. Consider changing the search query.</span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="multiselect__option">List is empty.</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div ng-show="isMobile">
+                                            <ui-select ng-change="" multiple ng-model="$parent.NameAndSurname" theme="bootstrap" close-on-select="false" style="width: 300px;" title="Vyberte jednu z možností">
+                                                <ui-select-match placeholder="Vyberte jednu z možností">{{$item}}</ui-select-match>
+                                                <ui-select-choices repeat="item in uniquePeopleNames">
+                                                  {{item}}
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    <div class="row" data-v-3a09080e="">
+                        <div class="col-md-6" data-v-3a09080e="" style="text-align: left">
+                            <div class="input-box" data-v-3a09080e="">
+                                <label data-v-3a09080e=""></label>
+                                <p data-v-3a09080e=""></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" data-v-3a09080e="" style="text-align: center">
+                        <div class="col-md-12" data-v-3a09080e="" style="text-align: center">
+                            <div class="input-box" data-v-3a09080e="">
+                                <button style="height: 50px;width: 100px" ng-click="clearAdvancedSearch()" class="btn btn-outline-primary" type="button">Vyčistit</button>
+                                <button style="height: 50px;width: 100px" ng-click="searchButtonParamClicked()" class="btn btn-outline-primary" type="button">Vyhledat</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                
+        
+            </div>
+        
+        
+        
+        
+        <div class="row" ng-show="quickSearchResultShow">
+                <div class="col-lg-6" style="width: calc(50%);margin: 10px">
+                    <div class="card" ng-repeat="item in quickSearchSessionsResultArray">
+                        <div class="card-header">
+                            <i class="fa fa-align-justify"></i> Výsledek hledání -- obsahuje {{quickSearchText}}
+                        </div>
+                        <div class="card-block">
+                            <div style="width: 100%;float: left">
+                                <strong>Bod programu:</strong></br>
+                                <p><a style="cursor:pointer;color:blue;text-decoration:underline"
+                                               ng-click="getOneSearchResult(item.id)">{{item.type}}</a></p>
+                                <strong>Popis:</strong></br>
+                                <p>{{item.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <div class="card" ng-repeat="item in SubstituteForPerson">
+                        <div class="card-header">
+                            <i class="fa fa-align-justify"></i> Výsledek hledání -- obsahuje {{quickSearchText}}
+                        </div>
+                        <div class="card-block">
+                            <div style="width: 100%;float: left">
+                                <strong>Bod programu:</strong></br>
+                                <p><a style="cursor:pointer;color:blue;text-decoration:underline"
+                                               ng-click="getOneSearchResult(item.id)">{{item.type}}</a></p>
+                                <strong>Popis:</strong></br>
+                                <p>{{item.description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        
+        
+        
+        
+        
+        <div ng-show="ShowAdvancedSearch">
+            
+            <div class="row" style="z-index: 1;width: calc(100% - 10px);margin: 10px">
+                <div class="card" style="width: calc(100%)" ng-repeat="info in tableArray">
+                    <div class="card-block">
+                        <div style="width: 100%;float: left">
+                            <strong>Bod programu:</strong></br>
+                            <p>{{info.ses.type}}</p>
+                            <strong>Datum:</strong></br>
+                            <p>{{info.ses.date * 1000 | date:'dd-MM-yyyy'}}</p>
+                            <strong>Popis:</strong></br>
+                            <p>{{info.ses.description}}</p>
+                        </div>
+
+                        <div style="width: 40%;float: left;min-width: 280px">
+                            <table class="table table-sm" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th width="20%">
+                                        Jméno
+                                        </th>
+                                        <th width="20%">
+                                        Skupina
+                                        </th>
+                                        <th width="20%">
+                                        Rozhodnutí
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="item in info.per">
+                                        <td>
+                                        <a style="cursor:pointer;color:blue" ng-click="openPersonDetailModal(item.name)">{{item.name}}</a>
+                                        </td>
+                                        <td>{{item.groupName}}</td>
+                                        <td>
+                                            <div ng-if="item.decision.includes('Pro') && !item.decision.includes('Proti')">
+                                                <img ng-src="img/decisions/ano.png">
+                                            </div>
+                                            <div ng-if="item.decision.includes('Proti')">
+                                                <img ng-src="img/decisions/ne.png">
+                                            </div>
+                                            <div ng-if="item.decision.includes('Zdržel se')">
+                                                <img ng-src="img/decisions/zdrzelSe.png">
+                                            </div>
+                                            <div ng-if="item.decision.includes('Omluven')">
+                                                <img ng-src="img/decisions/omluven.png">
+                                            </div>
+                                            <div ng-if="item.decision.includes('Nehlasoval')">
+                                                <img ng-src="img/decisions/nehlasoval.png">
+                                            </div>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="width: 60%;float: left;padding-top: 1%;text-align: center">
+                            <div style="min-width: 220px">
+                                <div style="width: 4%;float: left;min-width: 20px">
+                                    <img src="img/decisions/ano.png">
+                                </div>
+                                <div style="width: 12%;float: left;text-align: left">
+                                    <strong>Ano</strong>
+                                </div>
+                            </div>
+                            <div style="min-width: 220px">
+                                <div style="width: 4%;float: left;min-width: 20px">
+                                    <img src="img/decisions/ne.png">
+                                </div>
+                                <div style="width: 12%;float: left;text-align: left">
+                                    <strong>NE</strong>
+                                </div>
+                            </div>
+                            <div style="min-width: 420px">
+                                <div style="width: 4%;float: left;min-width: 20px">
+                                    <img src="img/decisions/zdrzelSe.png">
+                                </div>
+                                <div style="width: 16%;float: left;text-align: left">
+                                    <strong>Zdržel se</strong>
+                                </div>
+                            </div>
+                            <div style="min-width: 420px">
+                                <div style="width: 4%;float: left;min-width: 20px">
+                                    <img src="img/decisions/omluven.png">
+                                </div>
+                                <div style="width: 16%;float: left;text-align: left">
+                                    <strong>Omluvem</strong>
+                                </div>
+                            </div>
+                            <div style="min-width: 420px">
+                                <div style="width: 4%;float: left;min-width: 20px">
+                                    <img src="img/decisions/nehlasoval.png">
+                                </div>
+                                <div style="width: 16%;float: left;text-align: left">
+                                    <strong>Nehlasoval</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width: 60%;height: 60%;float: left;padding-top: 5%">
+                            <canvas id="pie" class="chart chart-pie" 
+                                    chart-data="info.char" chart-labels="labels" 
+                                    chart-colors="colorsPie"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    

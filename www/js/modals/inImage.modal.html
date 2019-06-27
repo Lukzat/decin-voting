@@ -1,0 +1,23 @@
+<div class="modal-body">
+    <button type="button" class="close" ng-click="close()" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Vlozit Obrazek</h4><br />
+
+    <form role="form" name="imageForm" ng-submit="submit()">
+        
+
+            <div class="form-group">
+                <div class="controls">
+                    <div class="input-group col-sm-12">
+                        <input type="file" id="trueUploadBtn" onchange="onAddImage2(this.files)" style="display: none;" class="form-control" accept="image/*">
+                        <input type="button" class="btn btn-primary" ng-click="picLoad2()" value="Nahrát obrázek z disku">     {{dysplayQuestionPicturesNames[0]}}
+                    </div>
+                </div>
+            </div>
+        
+        
+        <button type="submit" class="btn btn-primary" ng-click="saveAndCloseModal()">Uložit</button>
+        <button type="button" class="btn btn-secondary" ng-click="close()">Zavřít</button>
+    </form>
+</div>

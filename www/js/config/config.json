@@ -1,0 +1,12 @@
+{
+  "jwt": {
+    "key": "ysArF5Toh+gNAQFT0JCsQca/uL16BMZIRKhneqjLky0dzk2kjOlGVaedJsJXfYYj+ibwNAAp82ZourATO2Qm5A==",
+    "algorithm": "HS512"
+  },
+  "database": {
+    "user": "root",
+    "password": "",
+    "host": "localhost",
+    "name": "carsandgas"
+  }
+}

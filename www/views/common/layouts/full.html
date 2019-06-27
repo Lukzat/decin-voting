@@ -1,0 +1,35 @@
+<!-- Navbar -->
+<div ng-include="'views/common/navbar.html'"></div>
+
+<div class="app-body">
+    <!-- Navigation -->
+    <div ng-include="'views/common/sidebar-nav.html'"></div>
+
+    <!-- Main content -->
+    <main class="main">
+
+        <!-- Breadcrumb -->
+        <ol class="breadcrumb" breadcrumb>
+            
+
+            <!-- Breadcrumb Menu-->
+            <li class="breadcrumb-menu">
+                
+            </li>
+
+        </ol>
+
+        <div class="container-fluid">
+            <ui-view></ui-view>
+        </div>
+        <!-- /.conainer-fluid -->
+    </main>
+
+
+    <!-- Aside Menu -->
+    <div ng-include="'views/common/aside.html'"></div>
+
+</div>
+
+<!-- Footer -->
+<!--<div style="position: absolute; bottom: 0%; width: 100%" ng-include="'views/common/footer.html'"></div>-->
