@@ -36,6 +36,12 @@ angular.module('app').factory('mainMenuData', ['$http', function ($http) {
         });
     };
     
+    obj.getNumberOfProcessesFiles = function () {
+        return $http.post(serviceBase + 'getNumberOfProcessesFiles.php').then(function (results) {
+            return results.data;
+        });
+    };
+    
     obj.getAvaibleMonths = function (sittingIds) {
         return $http.post(serviceBase + 'getAvaibleMonths.php',sittingIds).then(function (results) {
             return results.data;

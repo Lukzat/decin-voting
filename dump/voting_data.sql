@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Počítač: localhost
--- Vytvořeno: Čtv 27. čen 2019, 07:51
+-- Vytvořeno: Čtv 27. čen 2019, 16:13
 -- Verze serveru: 10.3.14-MariaDB-1
 -- Verze PHP: 7.3.4-2
 
@@ -15,7 +15,11 @@ SET time_zone = "+00:00";
 --
 -- Databáze: `dk_voting_data`
 --
-
+set character_set_client='utf8';
+set character_set_connection='utf8';
+set character_set_database='utf8';
+set character_set_results='utf8';
+set character_set_server='utf8';
 -- --------------------------------------------------------
 
 --
@@ -4808,3 +4812,4 @@ ALTER TABLE `voted`
 ALTER TABLE `voting_sessions`
   MODIFY `id` int(25) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=163;
 COMMIT;
+

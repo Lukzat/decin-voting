@@ -34,7 +34,7 @@ abstract class BaseManager {
      * BaseManager constructor */
     public function __construct() {
         //Debugger::enable(); // Zapnutí Laděnky
-        $this->connection = new Connection('mysql:host=192.168.11.100;port=3600;dbname=voting_data;', 'user', 'test');    // Připojení k DB
+        $this->connection = new Connection('mysql:host=172.17.0.1;port=3600;dbname=voting_data;', 'user', 'test');    // Připojení k DB
         $this->cacheMemoryStorage = new MemoryStorage();
         $this->structure = new Structure($this->connection, $this->cacheMemoryStorage);
         $this->database = new Context($this->connection, $this->structure);

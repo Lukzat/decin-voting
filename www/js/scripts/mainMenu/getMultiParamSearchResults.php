@@ -14,7 +14,7 @@ $checkPolitickaStrana = True;
 $checkNameAndSurname = True;
 
 
-if(sizeof($info["sittingId"])==0){
+if(sizeof($info["sittingTypes"])==0){
     return 'Příliš široké vyhledávání.';
     exit();
 }
@@ -36,11 +36,18 @@ if(sizeof($info["jmenoData"])==0){
 }
 
 
-$sessions = $APM->getSessionsBySittings($info["sittingId"])[0];
+$sessionsCluster = $APM->getSessionsByNewSittings($info["sittingTypes"]);
 
 //var_dump($info["bodProgramuData"]);
-//var_dump(sizeof($sessions));
+//var_dump($sessionsCluster);
 
+$sessions = [];
+foreach ($sessionsCluster as $sessionsBundle) {
+    foreach ($sessionsBundle as $session) {
+        $sessions[]=$session;
+    }
+}
+//var_dump($sessions);
 
 if($checkMonth){
     $tempSessions = [];
@@ -52,7 +59,6 @@ if($checkMonth){
     $sessions = $tempSessions;
 }
 
-
 if($checkBodProgramu){
     $tempSessions = [];
     foreach ($sessions as $session) {
@@ -62,8 +68,6 @@ if($checkBodProgramu){
     }
     $sessions = $tempSessions;
 }
-
-
 
 $sessionIds = [];
 foreach ($sessions as $session) {
@@ -123,6 +127,8 @@ foreach ($voteCluster as $cluster) {
         }elseif (strpos($person["decision"], 'Omluven') !== False) {
             $omluven++;
         }elseif (strpos($person["decision"], 'Nehlasoval') !== False) {
+            $nehlasoval++;
+        }elseif (strpos($person["decision"], 'Nepřítomen') !== False) {
             $nehlasoval++;
         }
     }

@@ -7,7 +7,7 @@
             <div class="Navigation">
                 <div style="text-align: center">
                     <div class="Container" style="display: inline-block;width: 90%">
-                        <a aria-current="page" class="Navigation__brand" href="https://idecin.cz/" style="min-width: 50px">Děčín je boží</a>
+                        <a aria-current="page" class="Navigation__brand" href="https://hlasovani.mmdecin.cz" style="cursor: pointer;min-width: 50px">Děčín je boží</a>
                         <div class="Navigation__content" style="width: calc(100% - 236px)">
                             <div class="Navigation__contentHelper">
                             </div>
@@ -246,12 +246,12 @@
     <div ng-show="ShowContentSearch" ng-keypress="enterPress($event)">
             <div class="row" ng-show="ShowAdvancedSearch" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
                 <div class="custom-card" data-v-3a09080e="" style="max-height: 300px;background-color: #DBE7F3;border-radius: 0;width: calc(30% - 4px);min-width: 360px;margin: 1px;margin-top: 20px;">
-                    <div style="min-width: 318px" class="NewsList__title">Aktuální jednání zastupitelstva {{latestDate * 1000 | date:'dd-MM-yyyy'}}</div>
+                    <div style="min-width: 318px" class="NewsList__title">Aktuální jednání zastupitelstva {{latestDate * 1000 | date:'dd.MM.yyyy'}}</div>
                     <div class="row" style="max-height: 260px;overflow-y: scroll;position: relative;top: -52px">
                         <div style="" ng-repeat="item in newSideSessions">
-                            <p style="padding: 0;margin: 0"><a style="cursor:pointer;color:blue;text-decoration:underline"
-                                ng-click="getOneSearchResult(item.id)">{{item.type}}</a></p>
-                            <p style="padding: 0;margin: 0">{{item.description}}</p>
+                            <p style="padding: 0;margin: 0"><strong><a class="actualHeader" style="cursor:pointer;"
+                                ng-click="getOneSearchResult(item.id)">{{item.type}}</a></strong></p>
+                            <p style="padding: 0;margin: 0;margin-bottom: 5px">{{item.description}}</p>
                         </div>
                     </div>
                 </div>
@@ -270,7 +270,7 @@
 
                                             </div>
                                             <select ng-change="sittingValueChanged()" style="position: absolute" chosen multiple ng-model="Sitting" name="fieldOfSessions" id="2" width="300">
-                                                <option ng-repeat="item in SittingsArray" value="{{item.id}}">{{item.name}} -- {{item.start}}</option>
+                                                <option ng-repeat="item in newSittings" value="{{item.searchName}}">{{item.displayName}}</option>
                                             </select>
                                             <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
                                                 <ul class="multiselect__content" style="display: block;"> 
@@ -285,9 +285,9 @@
                                         </div>
                                         <div ng-show="isMobile" tabindex="-1" class="multiselect" data-v-3a09080e="">
                                             <ui-select ng-change="sittingValueChanged()" multiple ng-model="$parent.Sitting" theme="bootstrap" close-on-select="false" style="width: 300px;" title="Vyberte jednu z možností">
-                                                <ui-select-match placeholder="Vyberte jednu z možností">{{$item.name}} -- {{$item.start}}</ui-select-match>
-                                                <ui-select-choices repeat="item.id as item in SittingsArray">
-                                                  {{item.name}} -- {{item.start}}
+                                                <ui-select-match placeholder="Vyberte jednu z možností">{{$item.displayName}}</ui-select-match>
+                                                <ui-select-choices repeat="item.searchName as item in newSittings">
+                                                  {{item.displayName}}
                                                 </ui-select-choices>
                                             </ui-select>
                                         </div>
@@ -440,9 +440,14 @@
                         </div>
                     </div>
                 </div>
-                
-                
-        
+            </div>
+            <div class="row" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
+                <p>Počet zpracovaných zastpitelstev: {{numberOfProcessedFiles}}</p>
+            </div>
+            <div ng-show="showInitialGraphData" class="row" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
+                <div style="width: 90%">
+                    <canvas id="bar-chart-grouped" width="800" height="450"></canvas>
+                </div>
             </div>
         
         
@@ -450,26 +455,21 @@
         
         <div class="row" ng-show="quickSearchResultShow">
                 <div class="col-lg-6" style="width: calc(50%);margin: 10px">
-                    <div class="card" ng-repeat="item in quickSearchSessionsResultArray">
+                    <div class="card" ng-repeat="item in quickSearchVotedResultArray">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i> Výsledek hledání -- obsahuje {{quickSearchText}}
+                            <i class="fa fa-align-justify"></i> Výsledek hledání: lidé -- obsahuje {{quickSearchText}}
                         </div>
                         <div class="card-block">
                             <div style="width: 100%;float: left">
-                                <strong>Bod programu:</strong></br>
+                                <strong>Jméno:</strong></br>
                                 <p><a style="cursor:pointer;color:blue;text-decoration:underline"
-                                               ng-click="getOneSearchResult(item.id)">{{item.type}}</a></p>
-                                <strong>Popis:</strong></br>
-                                <p>{{item.description}}</p>
+                                               ng-click="openPersonDetailModal(item)">{{item}}</a></p>
                             </div>
                         </div>
                     </div>
-                    
-                    
-                    
-                    <div class="card" ng-repeat="item in SubstituteForPerson">
+                    <div class="card" ng-repeat="item in quickSearchSessionsResultArray">
                         <div class="card-header">
-                            <i class="fa fa-align-justify"></i> Výsledek hledání -- obsahuje {{quickSearchText}}
+                            <i class="fa fa-align-justify"></i> Výsledek hledání: hlasování -- obsahuje {{quickSearchText}}
                         </div>
                         <div class="card-block">
                             <div style="width: 100%;float: left">
@@ -477,7 +477,7 @@
                                 <p><a style="cursor:pointer;color:blue;text-decoration:underline"
                                                ng-click="getOneSearchResult(item.id)">{{item.type}}</a></p>
                                 <strong>Popis:</strong></br>
-                                <p>{{item.description}}</p>
+                                <p ng-bind-html="item.description"></p>
                             </div>
                         </div>
                     </div>
@@ -498,7 +498,7 @@
                             <strong>Bod programu:</strong></br>
                             <p>{{info.ses.type}}</p>
                             <strong>Datum:</strong></br>
-                            <p>{{info.ses.date * 1000 | date:'dd-MM-yyyy'}}</p>
+                            <p>{{info.ses.date * 1000 | date:'dd.MM.yyyy'}}</p>
                             <strong>Popis:</strong></br>
                             <p>{{info.ses.description}}</p>
                         </div>
@@ -537,7 +537,7 @@
                                             <div ng-if="item.decision.includes('Omluven')">
                                                 <img ng-src="img/decisions/omluven.png">
                                             </div>
-                                            <div ng-if="item.decision.includes('Nehlasoval')">
+                                            <div ng-if="item.decision.includes('Nehlasoval') || item.decision.includes('Nepřítomen')">
                                                 <img ng-src="img/decisions/nehlasoval.png">
                                             </div>
                                             </td>
@@ -546,43 +546,43 @@
                             </table>
                         </div>
                         <div style="width: 60%;float: left;padding-top: 1%;text-align: center">
-                            <div style="min-width: 220px">
-                                <div style="width: 4%;float: left;min-width: 20px">
+                            <div style="min-width: 140px;float: left">
+                                <div style="float: left;min-width: 25px">
                                     <img src="img/decisions/ano.png">
                                 </div>
-                                <div style="width: 12%;float: left;text-align: left">
+                                <div style="float: left;text-align: left">
                                     <strong>Ano</strong>
                                 </div>
                             </div>
-                            <div style="min-width: 220px">
-                                <div style="width: 4%;float: left;min-width: 20px">
+                            <div style="min-width: 140px;float: left">
+                                <div style="float: left;min-width: 25px">
                                     <img src="img/decisions/ne.png">
                                 </div>
-                                <div style="width: 12%;float: left;text-align: left">
+                                <div style="float: left;text-align: left">
                                     <strong>NE</strong>
                                 </div>
                             </div>
-                            <div style="min-width: 420px">
-                                <div style="width: 4%;float: left;min-width: 20px">
+                            <div style="min-width: 140px;float: left">
+                                <div style="float: left;min-width: 25px">
                                     <img src="img/decisions/zdrzelSe.png">
                                 </div>
-                                <div style="width: 16%;float: left;text-align: left">
+                                <div style="float: left;text-align: left">
                                     <strong>Zdržel se</strong>
                                 </div>
                             </div>
-                            <div style="min-width: 420px">
-                                <div style="width: 4%;float: left;min-width: 20px">
+                            <div style="min-width: 140px;float: left">
+                                <div style="float: left;min-width: 25px">
                                     <img src="img/decisions/omluven.png">
                                 </div>
-                                <div style="width: 16%;float: left;text-align: left">
+                                <div style="float: left;text-align: left">
                                     <strong>Omluvem</strong>
                                 </div>
                             </div>
-                            <div style="min-width: 420px">
-                                <div style="width: 4%;float: left;min-width: 20px">
+                            <div style="min-width: 140px;float: left">
+                                <div style="float: left;min-width: 25px">
                                     <img src="img/decisions/nehlasoval.png">
                                 </div>
-                                <div style="width: 16%;float: left;text-align: left">
+                                <div style="float: left;text-align: left">
                                     <strong>Nehlasoval</strong>
                                 </div>
                             </div>

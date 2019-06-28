@@ -50,11 +50,11 @@
                             <div ng-if="item.decision.includes('Omluven')">
                                 <img ng-src="img/decisions/omluven.png">
                             </div>
-                            <div ng-if="item.decision.includes('Nehlasoval')">
+                            <div ng-if="item.decision.includes('Nehlasoval') || item.decision.includes('Nepřítomen')">
                                 <img ng-src="img/decisions/nehlasoval.png">
                             </div>
                         </td>
-                        <td>{{sessinnsCluster[$index][0].date * 1000 | date:'dd-MM-yyyy hh:mm'}}</td>
+                        <td>{{sessinnsCluster[$index][0].date * 1000 | date:'dd.MM.yyyy hh:mm'}}</td>
                         <td>{{sessinnsCluster[$index][0].description}}</td>
                     </tr>
                 </tbody>

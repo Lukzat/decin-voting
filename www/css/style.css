@@ -3055,7 +3055,7 @@ body > .select2-container.open {
 
 .NewsList__title2 {
     display: inline-block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     line-height: 20px;
     text-align: center;
@@ -3071,7 +3071,7 @@ body > .select2-container.open {
 
 .NewsList__title {
     display: inline-block;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 700;
     line-height: 20px;
     text-align: center;
@@ -3083,6 +3083,7 @@ body > .select2-container.open {
     height: 32px;
     top: -62px;
     left: -30px;
+    width: 360px
 }
 
 .NewsList__content88 {
@@ -7307,6 +7308,15 @@ button {
   .callout-success h4 {
     color: #4dbd74; }
 
+.actualHeader {
+    color: #006cb6!important;
+    text-decoration: none!important;
+}
+
+.actualHeader:hover {
+    text-decoration: underline!important;
+}
+  
 .card {
   margin-bottom: 1.5rem; }
 

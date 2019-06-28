@@ -8,6 +8,13 @@ $APM = new AddPageManager();
 
 $info = json_decode(file_get_contents("php://input"));
 
-$sessions =$APM->getSessionsBySittings($info);
+$sessionsCluster = $APM->getSessionsByNewSittings($info);
 
-echo json_encode($sessions);
+$bundledSessions = [];
+foreach ($sessionsCluster as $sessions) {
+    foreach ($sessions as $session) {
+        $bundledSessions[]=$session;
+    }
+}
+
+echo json_encode($bundledSessions);

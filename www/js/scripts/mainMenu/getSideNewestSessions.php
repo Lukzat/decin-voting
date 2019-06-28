@@ -18,7 +18,7 @@ foreach ($sessions as $session) {
     $wholeNum = (int)($year . $month);
     if(!in_array($wholeNum, $sittingsNumHolder)){
         $sittingsNumHolder[]=$wholeNum;
-        $sittings[]="ZM " . $year . " " . $month;
+        $sittings[]=["searchName"=>"ZM " . $year . " " . $month,"displayName"=>"ZM " . $month . "/20" . $year];
     }
 }
 
@@ -26,7 +26,7 @@ $neededKey1 = array_keys($sittingsNumHolder, max($sittingsNumHolder));
 
 
 foreach ($sessions as $session) {
-    if (strpos($session["type"], $sittings[$neededKey1[0]]) !== false) {
+    if (strpos($session["type"], $sittings[$neededKey1[0]]["searchName"]) !== false) {
         
     }else{
         $neededKey2 = array_keys($sessions, $session);
@@ -59,5 +59,31 @@ foreach ($sessions as $session) {
     $sessions[$neededKey3[0]]["description"] = (string)$textBit . "...";
 }
 
-$sendArray = [$sessions,$sittings];
+$sittingsLabels = [];
+$sittingsNames = [];
+foreach ($sittings as $sittingInfo) {
+    $sittingsLabels[] = $sittingInfo["displayName"];
+    $sittingsNames[] = $sittingInfo["searchName"];
+}
+
+$sessionsCluster = $APM->getSessionsByNewSittings($sittingsNames);
+$sessionsIds = [];
+foreach ($sessionsCluster as $sessionsBundle) {
+    $idCluster = [];
+    foreach ($sessionsBundle as $session) {
+        $idCluster[]=$session["id"];
+    }
+    $sessionsIds[]=$idCluster;
+}
+
+$hlasovaloResults = [];
+$nehlasovaloResults = [];
+foreach ($sessionsIds as $cluster) {
+    $results = $APM->countVotedAndNotForOneSitting($cluster);
+    $hlasovaloResults[] = $results[0];
+    $nehlasovaloResults[] = $results[1];
+}
+
+$sendArray = [$sessions,$sittings,sizeof($sittings),$sittingsLabels,$hlasovaloResults,$nehlasovaloResults];
+
 echo json_encode($sendArray);

@@ -58,6 +58,8 @@ foreach ($voteCluster as $cluster) {
             $omluven++;
         }elseif (strpos($person["decision"], 'Nehlasoval') !== False) {
             $nehlasoval++;
+        }elseif (strpos($person["decision"], 'Nepřítomen') !== False) {
+            $nehlasoval++;
         }
     }
     $chartValues = [$ano,$ne,$zdrzelSe,$omluven,$nehlasoval];
