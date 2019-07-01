@@ -32,6 +32,7 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         $scope.Session = [];
         $scope.ShowNavButtons = true;
         $scope.ShowContentSearch = false;
+        $scope.showExportButton = false;
         $scope.currentCity = "";
         $scope.ShowAdvancedSearch = true;
         $scope.quickSearchText = "";
@@ -50,6 +51,23 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
             }else{
                 $scope.isDesktop = true;
             }
+        };
+        
+        $scope.reloadPage = function(){
+            location.reload();
+        };
+        
+        $scope.exportTableArrayToCSV = function(){
+            mainMenuData.exportTableArrayToCSV($scope.tableArray).then(function(result){
+                url = location.origin + location.pathname + "/CSVHolder/" + result;
+                var link = document.createElement("a");
+                link.download = result;
+                link.href = url;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                delete link;
+            });
         };
         
         $scope.activateTopSearchBar = function(){
@@ -123,6 +141,7 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         $scope.getSideNewestSessions();
         
         $scope.enterPress = function(keyEvent) {
+            $scope.showExportButton = false;
             $scope.tableArray = [];
             $scope.quickSearchSessionsResultArray = [];
             if (keyEvent.which === 13){
@@ -164,6 +183,7 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         };
         
         $scope.quickSearchGo = function(){
+            $scope.showExportButton = false;
             $scope.showInitialGraphData = false;
             $scope.ShowAdvancedSearch = true;
             $scope.quickSearchResultArray = [];
@@ -195,8 +215,13 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         };
         //$scope.NameAndSurname
         $scope.searchButtonParamClicked = function(){
+            $scope.showExportButton = true;
             $scope.showInitialGraphData = false;
             $scope.tableArray = [];
+            var filtered = $scope.tableArray.filter(function (el) {
+              return el !== null;
+            });
+            $scope.tableArray = filtered;
             $scope.quickSearchSessionsResultArray = [];
             $scope.quickSearchResultShow = false;
             var sendParamData =  {"sittingTypes":$scope.Sitting,
@@ -217,6 +242,7 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         
         
         $scope.getOneSearchResult = function(sessinId){
+            $scope.showExportButton = true;
             $scope.showInitialGraphData = false;
             $scope.tableArray = [];
             $scope.quickSearchSessionsResultArray = [];

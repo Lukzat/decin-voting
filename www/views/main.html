@@ -7,7 +7,8 @@
             <div class="Navigation">
                 <div style="text-align: center">
                     <div class="Container" style="display: inline-block;width: 90%">
-                        <a aria-current="page" class="Navigation__brand" href="https://hlasovani.mmdecin.cz" style="cursor: pointer;min-width: 50px">Děčín je boží</a>
+                        <a aria-current="page" class="Navigation__brand" ng-click="reloadPage()" style="cursor: pointer;min-width: 50px">Děčín je boží</a>
+                        <!--    href="https://hlasovani.mmdecin.cz"    -->
                         <div class="Navigation__content" style="width: calc(100% - 236px)">
                             <div class="Navigation__contentHelper">
                             </div>
@@ -442,7 +443,10 @@
                 </div>
             </div>
             <div class="row" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
-                <p>Počet zpracovaných zastpitelstev: {{numberOfProcessedFiles}}</p>
+                <p>Počet zpracovaných zastupitelstev: {{numberOfProcessedFiles}}</p>
+            </div>
+            <div ng-show="showExportButton" class="row" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
+                <button ng-click="exportTableArrayToCSV()" class="btn btn-outline-primary" type="button">Exportovat výběr do CSV souboru</button>
             </div>
             <div ng-show="showInitialGraphData" class="row" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
                 <div style="width: 90%">
@@ -511,7 +515,7 @@
                                         Jméno
                                         </th>
                                         <th width="20%">
-                                        Skupina
+                                        Politická strana
                                         </th>
                                         <th width="20%">
                                         Rozhodnutí
@@ -597,4 +601,16 @@
             </div>
         </div>
     </div>
+</div>
+<div class="Footer">
+    <div class="Container">
+            <div class="Footer__info">
+                <h2>Hlasování zastupitelstva statutárního města Děčín</h2><br>
+                <a class="Footer__infoLink">Náměty a přípomínky posílejte na:</a><br>
+                <a class="Footer__infoLink" href="mailto:informatika@mmdecin.cz">informatika@mmdecin.cz</a><br>
+                <a class="Footer__infoLink">2019 Vyvinuto studenty UJEP a společností EasyComp s.r.o.</a><br>
+                <a class="Footer__infoLink">Zdrojové kódy aplikace pod licencí MIT k dispozici na GitHubu.</a>
+            </div>
+    </div>
+</div>
     

@@ -22,7 +22,7 @@
     
     <link rel="stylesheet" type="text/css" href="./node_modules/chosen-js/chosen.css" />
 
-    <title>Vote view</title>
+    <title>Hlasování zastupitelstva</title>
 
     <!-- Main styles for this application -->
     <link href="css/style.css" rel="stylesheet">

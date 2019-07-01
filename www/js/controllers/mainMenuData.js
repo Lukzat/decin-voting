@@ -18,6 +18,12 @@ angular.module('app').factory('mainMenuData', ['$http', function ($http) {
         });
     };
     
+    obj.exportTableArrayToCSV = function (tableArray) {
+        return $http.post(serviceBase + 'exportTableArrayToCSV.php',tableArray).then(function (results) {
+            return results.data;
+        });
+    };
+    
     obj.getSideNewestSessions = function () {
         return $http.post(serviceBase + 'getSideNewestSessions.php').then(function (results) {
             return results.data;
