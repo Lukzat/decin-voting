@@ -247,7 +247,7 @@
     <div ng-show="ShowContentSearch" ng-keypress="enterPress($event)">
             <div class="row" ng-show="ShowAdvancedSearch" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
                 <div class="custom-card" data-v-3a09080e="" style="max-height: 300px;background-color: #DBE7F3;border-radius: 0;width: calc(30% - 4px);min-width: 360px;margin: 1px;margin-top: 20px;">
-                    <div style="min-width: 318px" class="NewsList__title">Aktuální jednání zastupitelstva {{latestDate * 1000 | date:'dd.MM.yyyy'}}</div>
+                    <div style="min-width: 318px" class="NewsList__title"><p style="padding: 5px;margin: 5px;margin-top: 0px;padding-top: 0px;float: left">Aktuální jednání zastupitelstva</p> <p ng-click="openSelectSittingModal(newSittings)" style="float: left;padding: 5px;margin: 5px;cursor:pointer;text-decoration: underline;margin-top: 0px;padding-top: 0px">{{latestDate * 1000 | date:'dd.MM.yyyy'}}</p></div>
                     <div class="row" style="max-height: 260px;overflow-y: scroll;position: relative;top: -52px">
                         <div style="" ng-repeat="item in newSideSessions">
                             <p style="padding: 0;margin: 0"><strong><a class="actualHeader" style="cursor:pointer;"
@@ -270,7 +270,7 @@
                                             <div class="multiselect__select">
 
                                             </div>
-                                            <select ng-change="sittingValueChanged()" style="position: absolute" chosen multiple ng-model="Sitting" name="fieldOfSessions" id="2" width="300">
+                                            <select ng-change="sittingValueChanged()" style="position: absolute" chosen multiple ng-model="Sitting" name="fieldOfSessions" id="zastupSearch" width="300">
                                                 <option ng-repeat="item in newSittings" value="{{item.searchName}}">{{item.displayName}}</option>
                                             </select>
                                             <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
@@ -335,7 +335,7 @@
                                                 <div class="multiselect__spinner" style="display: none;">
 
                                                 </div>
-                                                <select ng-change="sessionValueChanged()" style="position: absolute" chosen multiple ng-model="Session" name="fieldOfSessions" id="2" width="300">
+                                                <select ng-change="sessionValueChanged()" style="position: absolute" ng-disabled="bodyProgramuDisabled" chosen multiple ng-model="Session" name="fieldOfSessions" id="progSearch" width="300">
                                                     <option ng-repeat="item in uniqueSessionNames" value="{{item}}">{{item}}</option>
                                                 </select>
                                             </div>
@@ -370,7 +370,7 @@
                                             <div class="multiselect__select">
 
                                             </div>
-                                            <select ng-change="politickaStranaChanged()" style="position: absolute" chosen multiple ng-model="pGroups" name="fieldOfVoters" id="1" width="300">
+                                            <select ng-change="politickaStranaChanged()" style="position: absolute" ng-disabled="politickeStranyDisabled" chosen multiple ng-model="pGroups" name="fieldOfVoters" id="politSearch" width="300">
                                                 <option ng-repeat="pGroup in uniquePoliticalGroups" value="{{pGroup}}">{{pGroup}}</option>
                                             </select>
                                             <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
@@ -395,7 +395,7 @@
                                             <div class="multiselect__select">
 
                                             </div>
-                                            <select ng-change="" style="position: absolute" chosen multiple ng-model="NameAndSurname" name="fieldOfVoters" id="1" width="300">
+                                            <select ng-change="" style="position: absolute" ng-disabled="jmenoAPrijmeniDisabled" chosen multiple ng-model="NameAndSurname" name="fieldOfVoters" id="jmenSearch" width="300">
                                                 <option ng-repeat="name in uniquePeopleNames" value="{{name}}">{{name}}</option>
                                             </select>
                                             <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">

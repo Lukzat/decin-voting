@@ -24,6 +24,12 @@ angular.module('app').factory('mainMenuData', ['$http', function ($http) {
         });
     };
     
+    obj.getSideNewestSessionsByType = function (typeSearchPart) {
+        return $http.post(serviceBase + 'getSideNewestSessionsByType.php',typeSearchPart).then(function (results) {
+            return results.data;
+        });
+    };
+    
     obj.getSideNewestSessions = function () {
         return $http.post(serviceBase + 'getSideNewestSessions.php').then(function (results) {
             return results.data;

@@ -174,6 +174,15 @@ class AddPageManager extends BaseManager {
         return $sessionCluster;
     }
     
+    public function getSessionsByNewSitting($sittingType) {
+        $sessionInfo = array_map('iterator_to_array',$this->database->query(
+                "SELECT * FROM "
+                .self::TABLE_NAME_5.
+                " WHERE "
+                .self::COLUMN_TYPE_5." LIKE '%".$sittingType."%'")->fetchAll());
+        return $sessionInfo;
+    }
+    
     public function getSessionsBySittings($sittingIds) {
         $sessionCluster=[];
         foreach ($sittingIds as $sittingId) {
