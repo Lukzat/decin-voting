@@ -122,11 +122,11 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
                       labels: $scope.sittingsLabels,
                       datasets: [
                         {
-                          label: "Nehlasovalo",
+                          label: "Neschváleno",
                           backgroundColor: "#000000",
                           data: $scope.nehlasovaloResults
                         }, {
-                          label: "Hlasovalo",
+                          label: "Schváleno",
                           backgroundColor: "#4CAF4F",
                           data: $scope.hlasovaloResults
                         }
@@ -135,7 +135,7 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
                     options: {
                       title: {
                         display: true,
-                        text: 'Přehled hlasování'
+                        text: 'Přehled schválených/neschválených bodů hlasování'
                       }
                     }
                 });

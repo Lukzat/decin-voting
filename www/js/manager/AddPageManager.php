@@ -64,24 +64,27 @@ class AddPageManager extends BaseManager {
     }
     
     public function countVotedAndNotForOneSitting($sessionIds) {
-        $hlasovaloCelkem = 0;
-        $nehlasovaloCelkem = 0;
+        $proslo = 0;
+        $neproslo = 0;
         foreach ($sessionIds as $sesId) {
-            $hlasovalo = array_map('iterator_to_array',$this->database->query(
+            $hlasovaloCelkem = 0;
+            $hlasovaloPro = 0;
+            $result = array_map('iterator_to_array',$this->database->query(
+                "SELECT COUNT(*) FROM "
+                .self::TABLE_NAME_2." WHERE (". self::COLUMN_SESSION_ID." = ".$sesId. ")")->fetchAll());
+            $hlasovaloCelkem = $result[0]["COUNT(*)"];
+            $result2 = array_map('iterator_to_array',$this->database->query(
                 "SELECT COUNT(*) FROM "
                 .self::TABLE_NAME_2." WHERE (". self::COLUMN_SESSION_ID." = ".$sesId. ") AND ("
-                . self::COLUMN_DECISION_2." = 'Pro'". " OR ". self::COLUMN_DECISION_2." = 'Proti'"
-                . ")")->fetchAll());
-            $hlasovaloCelkem += $hlasovalo[0]["COUNT(*)"];
-            $nehlasovalo = array_map('iterator_to_array',$this->database->query(
-                "SELECT COUNT(*) FROM "
-                .self::TABLE_NAME_2." WHERE (". self::COLUMN_SESSION_ID." = ".$sesId. ") AND ("
-                . self::COLUMN_DECISION_2." = 'Zdržel se'". " OR ". self::COLUMN_DECISION_2." = 'Omluven'". " OR "
-                . self::COLUMN_DECISION_2." = 'Nehlasoval'". " OR ". self::COLUMN_DECISION_2." = 'Nepřítomen'"
-                . ")")->fetchAll());
-            $nehlasovaloCelkem += $nehlasovalo[0]["COUNT(*)"];
+                . self::COLUMN_DECISION_2." = 'Pro')")->fetchAll());
+            $hlasovaloPro = $result2[0]["COUNT(*)"];
+            if($hlasovaloPro > ($hlasovaloCelkem/2)){
+                $proslo+=1;
+            }else{
+                $neproslo+=1;
+            }
         }
-        $finSend = [$hlasovaloCelkem,$nehlasovaloCelkem];
+        $finSend = [$proslo,$neproslo];
         return $finSend;
     }
     

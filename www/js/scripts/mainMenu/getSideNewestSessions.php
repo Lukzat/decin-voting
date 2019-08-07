@@ -76,14 +76,14 @@ foreach ($sessionsCluster as $sessionsBundle) {
     $sessionsIds[]=$idCluster;
 }
 
-$hlasovaloResults = [];
-$nehlasovaloResults = [];
+$pointsPassed = [];
+$pointsNotPassed = [];
 foreach ($sessionsIds as $cluster) {
     $results = $APM->countVotedAndNotForOneSitting($cluster);
-    $hlasovaloResults[] = $results[0];
-    $nehlasovaloResults[] = $results[1];
+    $pointsPassed[] = $results[0];
+    $pointsNotPassed[] = $results[1];
 }
 
-$sendArray = [$sessions,$sittings,sizeof($sittings),$sittingsLabels,$hlasovaloResults,$nehlasovaloResults];
+$sendArray = [$sessions,$sittings,sizeof($sittings),$sittingsLabels,$pointsPassed,$pointsNotPassed];
 
 echo json_encode($sendArray);
