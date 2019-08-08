@@ -1,0 +1,35 @@
+<div class="animated fadeIn">
+
+    
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Zasedání
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th width="35%">
+                                Označení
+                                </th>
+                                <th width="45%">
+                                Datum
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in sessionsArray">
+                                <td><a href="#!/Votes/{{cityId}}/{{sittingId}}/{{item.id}}">{{item.type}}</td>
+                                <td>{{item.date * 1000 | date:'dd-MM-yyyy hh:mm'}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

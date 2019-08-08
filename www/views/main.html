@@ -246,19 +246,19 @@
     
     <div ng-show="ShowContentSearch" ng-keypress="enterPress($event)">
             <div class="row" ng-show="ShowAdvancedSearch" style="z-index: 1;width: calc(100% - 10px);margin: 10px;display: flex;justify-content: center">
-                <div class="custom-card" data-v-3a09080e="" style="max-height: 400px;background-color: #DBE7F3;border-radius: 0;width: calc(50% - 4px);min-width: 360px;margin: 1px;margin-top: 20px;">
-                    <div style="min-width: 318px" class="NewsList__title"><p style="padding: 5px;margin: 5px;margin-top: 0px;padding-top: 0px;float: left">Aktuální jednání zastupitelstva</p> <p ng-click="openSelectSittingModal(newSittings)" style="float: left;padding: 5px;margin: 5px;cursor:pointer;text-decoration: underline;margin-top: 0px;padding-top: 0px">{{latestDate * 1000 | date:'dd.MM.yyyy'}}</p><img ng-click="openSelectSittingModal(newSittings)" style="width: 27px;height: 25px;cursor: pointer" ng-src="img/calendarIcon.png"></div>
-                    <div class="row" style="max-height: 365px;overflow-y: scroll;position: relative;top: -52px">
-                        <div style="" ng-repeat="item in newSideSessions">
+                <div class="custom-card" data-v-3a09080e="" style="max-height: 440px;min-height: 439px;background-color: #DBE7F3;border-radius: 0;width: calc(50% - 4px);min-width: 360px;margin: 1px;margin-top: 20px;">
+                    <div style="min-width: 318px" class="NewsList__title"><p style="padding: 5px;margin: 5px;margin-top: 0px;padding-top: 0px;float: left">Aktuální jednání zastupitelstva</p> <p ng-click="openSelectSittingModal(newSittings)" style="float: left;padding: 5px;margin: 5px;cursor:pointer;text-decoration: underline;margin-top: 0px;padding-top: 0px;margin-right: 0px;padding-right: 0px">{{latestDate * 1000 | date:'dd.MM.yyyy'}}</p><img ng-click="openSelectSittingModal(newSittings)" style="width: 25px;height: 23px;cursor: pointer" ng-src="img/calendarIcon.png"></div>
+                    <div class="row" style="max-height: 395px;overflow-y: scroll;position: relative;top: -52px">
+                        <div style="width: 100%" ng-repeat="item in newSideSessions">
                             <p style="padding: 0;margin: 0"><strong><a class="actualHeader" style="cursor:pointer;"
                                 ng-click="getOneSearchResult(item.id)">{{item.type}}</a></strong></p>
                             <p style="padding: 0;margin: 0;margin-bottom: 5px">{{item.description}}</p>
                         </div>
                     </div>
                 </div>
-                <div class="custom-card" data-v-3a09080e="" style="max-height: 400px;border: 1px solid #D9D9D9;border-radius: 0;width: 30%;min-width: 360px;margin: 1px;margin-top: 20px;padding-left: 45px">
+                <div class="custom-card" data-v-3a09080e="" ng-style="isDesktop && {'max-height':'440px'}" style="min-height: 439px;border: 1px solid #D9D9D9;border-radius: 0;width: 30%;min-width: 360px;margin: 1px;margin-top: 20px;padding-left: 45px">
                     <div class="NewsList__title2">Podrobné vyhledávání</div>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="exportTableArrayToCSV()">
+                    <button ng-show="showExportButton" type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="exportTableArrayToCSV()">
                         <img style="width: 32px;height: 30px" ng-src="img/export.png">
                     </button>
                     <div class="row">

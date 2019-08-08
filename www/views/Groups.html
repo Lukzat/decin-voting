@@ -1,0 +1,57 @@
+<div class="animated fadeIn">
+    <br><br><br><br>
+    
+    <div class="row">
+        <input style="width: 150px" type="button" class="btn btn-primary" ng-click="addSitting(cityId)" value="Přidat zstupitelstvo">
+    </div>
+    <br><br>
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Zastupitelstva
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th width="30%">
+                                Název
+                                </th>
+                                <th width="15%">
+                                Platné od
+                                </th>
+                                <th width="15%">
+                                Platné do
+                                </th>
+                                <th width="40%">
+                                Import volebních dat pro jednotlivá zastupitelstva
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in sittingsArray">
+                                <td><a href="#!/Detail/{{cityId}}/{{item.id}}">{{item.name}}</td>
+                                <td>{{item.start}}</td>
+                                <td>{{item.end}}</td>
+                                <td>
+                                    <div class="row">
+                                        <input type="file" id="trueUploadBtn1" onchange="AddImage1(this.files)" style="display: none;" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                        <input style="width: 140px" type="button" class="btn btn-primary" ng-click="picLoad1(item.id)" value="Zvolit soubor CSV">
+                                    </div></br>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+    
+    
+    
+    

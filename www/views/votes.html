@@ -1,0 +1,39 @@
+<div class="animated fadeIn">
+
+    
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Jednotlivé hlasy
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th width="33%">
+                                Jméno
+                                </th>
+                                <th width="33%">
+                                Skupina
+                                </th>
+                                <th width="33%">
+                                Rozhodnutí
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in votesArray">
+                                <td>{{item.name}}</td>
+                                <td>{{item.groupName}}</td>
+                                <td>{{item.decision}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>

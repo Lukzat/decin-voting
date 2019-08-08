@@ -1,0 +1,45 @@
+<div class="animated fadeIn">
+    <br><br><br><br>
+    
+    <div class="row">
+        <input style="width: 140px" type="button" class="btn btn-primary" ng-click="addCity()" value="Přidat město">
+    </div>
+    <br><br>
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    Města
+                </div>
+                <div class="card-block">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th width="47%">
+                                Název
+                                </th>
+                                <th width="48%">
+                                id
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in CitiesArray">
+                                <td><a href="#!/Groups/{{item.id}}">{{item.name}}</td>
+                                <td>{{item.id}}</td>
+                                <td><i ng-click="editCity(item.id,item.name)" class="icon-pencil"></i><span style="display:inline-block; width: 15%;"></span><i ng-click="removeCity(item.id)" class="icon-minus"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+    
+    
+    
+    

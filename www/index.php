@@ -120,6 +120,21 @@
 <!--MainMenu-->
 <script type="text/javascript" src="js/controllers/mainMenuCtrl.js"></script>
 <script type="text/javascript" src="js/controllers/mainMenuData.js"></script>
+<!--Import-->
+<script type="text/javascript" src="js/controllers/ImportCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/ImportData.js"></script>
+<!--Groups-->
+<script type="text/javascript" src="js/controllers/GroupsCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/GroupsData.js"></script>
+<!--Cities-->
+<script type="text/javascript" src="js/controllers/CitiesCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/CitiesData.js"></script>
+<!--Votes-->
+<script type="text/javascript" src="js/controllers/VotesCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/VotesData.js"></script>
+<!--Login-->
+<script type="text/javascript" src="js/controllers/loginCtrl.js"></script>
+<script type="text/javascript" src="js/controllers/loginData.js"></script>
 
 
 </body>

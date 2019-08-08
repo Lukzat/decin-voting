@@ -71,6 +71,31 @@ angular
   })
 
   // Additional Pages
+  .state('appSimple.login', {
+    url: '/Administrace',
+    templateUrl: 'views/pages/login.html',
+    controller: 'loginCtrl'
+  })
+  .state('app.Cities', {
+    url: '/Cities',
+    templateUrl: 'views/Cities.html',
+    controller: 'CitiesCtrl'
+  })
+  .state('app.Groups/:cityId', {
+    url: '/Groups/:cityId',
+    templateUrl: 'views/Groups.html',
+    controller: 'GroupsCtrl'
+  })
+  .state('app.Detail/:cityId/:sitId', {
+    url: '/Detail/:cityId/:sitId',
+    templateUrl: 'views/Import.html',
+    controller: 'ImportCtrl'
+  })
+  .state('app.Votes/:cityId/:sitId/:sesId', {
+    url: '/Votes/:cityId/:sitId/:sesId',
+    templateUrl: 'views/votes.html',
+    controller: 'VotesCtrl'
+  })
   .state('appSimple.Menu/:city', {
     url: '/Menu',
     templateUrl: 'views/main.html',
