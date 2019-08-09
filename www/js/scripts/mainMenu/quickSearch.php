@@ -12,9 +12,12 @@ $searchWord = (string)$info['word'];
 $results = $APM->quickSearch($info);
 
 $uniqueNames = [];
-foreach ($results[1] as $person) {
-    if(!in_array($person["name"], $uniqueNames)){
-        $uniqueNames[]=$person["name"];
+
+if ($results[1]) {
+    foreach ($results[1] as $person) {
+        if(!in_array($person["name"], $uniqueNames)){
+            $uniqueNames[]=$person["name"];
+        }
     }
 }
 
@@ -22,9 +25,9 @@ $defNum = 100;
 $pickSes = 0;
 $pickVot = 0;
 
-if(sizeof($results[0])>50){
+if($results[0] && sizeof($results[0])>50){
     $pickSes = 50;
-}else{
+}else if($results[0]){
     $pickSes = sizeof($results[0]);
 }
 
