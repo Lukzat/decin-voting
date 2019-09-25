@@ -30,6 +30,7 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         $scope.tableArray = [];
         $scope.Sitting = [];
         $scope.Session = [];
+        $scope.pGroups = [];
         $scope.ShowNavButtons = true;
         $scope.ShowContentSearch = false;
         $scope.showExportButton = false;
@@ -43,9 +44,9 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         $scope.isDesktop = false;
         $scope.showSearchBarTop = false;
         $scope.showInitialGraphData = true;
-        $scope.bodyProgramuDisabled = true;
-        $scope.politickeStranyDisabled = true;
-        $scope.jmenoAPrijmeniDisabled = true;
+        $scope.bodyProgramuDisabled = false;
+        $scope.politickeStranyDisabled = false;
+        $scope.jmenoAPrijmeniDisabled = false;
         $scope.showExportButton = false;
         
         var mobileTest = function(a){
@@ -59,6 +60,41 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         
         $scope.reloadPage = function(){
             location.reload();
+        };
+        
+        $scope.getCompleteNewDataVariableParams = function(){
+            var sendParamData =  {"zastupitelstva":$scope.Sitting,
+                                "bodyProgramu":$scope.Session,
+                                "politickeStrany":$scope.pGroups,
+                                "jmenoAPrijmeni":$scope.NameAndSurname};
+            mainMenuData.getCompleteNewDataVariableParams(sendParamData).then(function(result){
+                $scope.newSittings = result[0];
+                $scope.uniqueSessionNames = result[1];
+                $scope.uniquePoliticalGroups = result[2];
+                $scope.uniquePeopleNames = result[3];
+//                console.log(result);
+//                $scope.NameAndSurname = result[4];
+//                $scope.pGroups = result[5];
+//                $scope.Session = result[6];
+//                $scope.Sitting = result[7];
+            });
+        };
+        
+        $scope.getCompleteNewDataVariableParamsV2 = function(){
+            var sendParamData =  {"zastupitelstva":$scope.Sitting,
+                                "bodyProgramu":$scope.Session,
+                                "politickeStrany":$scope.pGroups,
+                                "jmenoAPrijmeni":$scope.NameAndSurname};
+            mainMenuData.getCompleteNewDataVariableParams(sendParamData).then(function(result){
+                $scope.uniqueSessionNames = result[1];
+                $scope.uniquePoliticalGroups = result[2];
+                $scope.uniquePeopleNames = result[3];
+//                console.log(result);
+//                $scope.NameAndSurname = result[4];
+//                $scope.pGroups = result[5];
+//                $scope.Session = result[6];
+//                $scope.Sitting = result[7];
+            });
         };
         
         $scope.exportTableArrayToCSV = function(){
@@ -301,6 +337,10 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
             $scope.getPersonsBySessions($scope.Person);
         };
         
+        $scope.jmenoAPrijmeniChanged = function(){
+            $scope.getCompleteNewDataVariableParams();
+        };
+        
         $scope.getPersonsBySessions = function(sessions){
             mainMenuData.getPersonsBySessions(sessions).then(function(result){
                 //console.log(result);
@@ -328,40 +368,39 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         };
         
         $scope.politickaStranaChanged = function(){
-            if($scope.pGroups.length > 0){
-                $scope.jmenoAPrijmeniDisabled = false;
-            }else{
-                $scope.jmenoAPrijmeniDisabled = true;
-            }
-            $scope.NameAndSurname = [];
-            $scope.uniquePeopleNames = [];
-            var NameSurSendData = {"session":$scope.Session,
-                                    "pGroups":$scope.pGroups};
-            mainMenuData.getAvaibleNameAndSurname(NameSurSendData).then(function(result){
-                $scope.uniquePeopleNames = result;
-            });
+            $scope.getCompleteNewDataVariableParams();
+//            if($scope.pGroups.length > 0){
+//                $scope.jmenoAPrijmeniDisabled = false;
+//            }else{
+//                $scope.jmenoAPrijmeniDisabled = true;
+//            }
+//            $scope.uniquePeopleNames = [];
+//            var NameSurSendData = {"session":$scope.Session,
+//                                    "pGroups":$scope.pGroups};
+//            mainMenuData.getAvaibleNameAndSurname(NameSurSendData).then(function(result){
+//                $scope.uniquePeopleNames = result;
+//            });
         };
         
         $scope.sessionValueChanged = function(){
-            if($scope.Session.length > 0){
-                $scope.politickeStranyDisabled = false;
-            }else{
-                $scope.politickeStranyDisabled = true;
-            }
-            $scope.pGroups = [];
-            $scope.NameAndSurname = [];
-            $scope.uniqueSessionPoints = [];
-            $scope.uniquePoliticalGroups = [];
-            for(a=0;a<$scope.Session.length;a++){
-                for(i=0;i<$scope.SessionsArray.length;i++){
-                    if($scope.SessionsArray[i].type === $scope.Session[a]){
-                        $scope.uniqueSessionPoints.push($scope.SessionsArray[i]);
-                    }
-                }
-            }
-            mainMenuData.getAvaiblePoliticalGroups($scope.Session).then(function(result){
-                $scope.uniquePoliticalGroups = result;
-            });
+            $scope.getCompleteNewDataVariableParams();
+//            if($scope.Session.length > 0){
+//                $scope.politickeStranyDisabled = false;
+//            }else{
+//                $scope.politickeStranyDisabled = true;
+//            }
+//            $scope.uniqueSessionPoints = [];
+//            $scope.uniquePoliticalGroups = [];
+//            for(a=0;a<$scope.Session.length;a++){
+//                for(i=0;i<$scope.SessionsArray.length;i++){
+//                    if($scope.SessionsArray[i].type === $scope.Session[a]){
+//                        $scope.uniqueSessionPoints.push($scope.SessionsArray[i]);
+//                    }
+//                }
+//            }
+//            mainMenuData.getAvaiblePoliticalGroups($scope.Session).then(function(result){
+//                $scope.uniquePoliticalGroups = result;
+//            });
         };
         
         $scope.clearAdvancedSearch = function(){
@@ -372,9 +411,10 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
             $scope.NameAndSurname = [];
             $scope.uniqueSessionNames = [];
             $scope.uniqueSessionPoints = [];
-            $scope.bodyProgramuDisabled = true;
-            $scope.politickeStranyDisabled = true;
-            $scope.jmenoAPrijmeniDisabled = true;
+//            $scope.bodyProgramuDisabled = true;
+//            $scope.politickeStranyDisabled = true;
+//            $scope.jmenoAPrijmeniDisabled = true;
+            $scope.getCompleteNewDataVariableParams();
         };
         
         $scope.monthValueChanged = function(){
@@ -387,19 +427,17 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         };
         
         $scope.sittingValueChanged = function(){
-            if($scope.Sitting.length > 0){
-                $scope.bodyProgramuDisabled = false;
-            }else{
-                $scope.bodyProgramuDisabled = true;
-            }
-            $scope.MonthsAvailable = [];
-            $scope.monthChosen = [];
-            $scope.Session = [];
-            $scope.pGroups = [];
-            $scope.NameAndSurname = [];
-            $scope.uniqueSessionNames = [];
-            $scope.uniqueSessionPoints = [];
-            $scope.getSessionsBySittings($scope.Sitting);
+            $scope.getCompleteNewDataVariableParamsV2();
+//            if($scope.Sitting.length > 0){
+//                $scope.bodyProgramuDisabled = false;
+//            }else{
+//                $scope.bodyProgramuDisabled = true;
+//            }
+//            $scope.MonthsAvailable = [];
+//            $scope.monthChosen = [];
+//            $scope.uniqueSessionNames = [];
+//            $scope.uniqueSessionPoints = [];
+//            $scope.getSessionsBySittings($scope.Sitting);
 //            mainMenuData.getAvaibleMonths($scope.Sitting).then(function(result){
 //                angular.forEach($scope.Months, function(value, key) {
 //                    if(result.includes(value.value)){
@@ -445,6 +483,6 @@ angular.module('app').controller('mainMenuCtrl', ['$uibModal','$sce', '$rootScop
         $scope.trustAsHtml = function(string) {
             return $sce.trustAsHtml(string);
         };
-        
+        $scope.getCompleteNewDataVariableParams();
 }]);
 

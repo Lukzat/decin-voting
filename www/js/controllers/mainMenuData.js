@@ -7,6 +7,15 @@ angular.module('app').factory('mainMenuData', ['$http', function ($http) {
     var obj = {};
     
     
+    /**
+     * 
+     * @returns {unresolved} Vrací možnosti selectu pro podrobné vyhledávání.
+     */
+    obj.getCompleteNewDataVariableParams = function (data) {
+        return $http.post(serviceBase + 'getCompleteNewDataVariableParams.php',data).then(function (results) {
+            return results.data;
+        });
+    };
     
     /**
      * 

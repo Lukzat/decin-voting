@@ -1,7 +1,5 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 use Manager\AddPageManager;
 header('Content-Type: application/json');
 require __DIR__ . '/../../vendor/autoload.php';
@@ -10,15 +8,19 @@ $APM = new AddPageManager();
 
 $info = (array)json_decode(file_get_contents("php://input"));
 
-$checkZasedani = True;
+$checkMonth = True;
 $checkBodProgramu = True;
 $checkPolitickaStrana = True;
 $checkNameAndSurname = True;
 
 
 if(sizeof($info["sittingTypes"])==0){
-    $checkZasedani = False;
-    //echo 'sittingTypes je prázdné';
+    return 'Příliš široké vyhledávání.';
+    exit();
+}
+if(sizeof($info["mesicData"])==0){
+    $checkMonth = False;
+    //echo 'mesicData je prázdné';
 }
 if(sizeof($info["bodProgramuData"])==0){
     $checkBodProgramu = False;
@@ -46,6 +48,16 @@ foreach ($sessionsCluster as $sessionsBundle) {
     }
 }
 //var_dump($sessions);
+
+if($checkMonth){
+    $tempSessions = [];
+    foreach ($sessions as $session) {
+        if(in_array(date('m', $session["date"]), $info["mesicData"])){
+            $tempSessions[]=$session;
+        }
+    }
+    $sessions = $tempSessions;
+}
 
 if($checkBodProgramu){
     $tempSessions = [];

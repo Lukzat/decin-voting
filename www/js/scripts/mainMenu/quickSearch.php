@@ -1,5 +1,9 @@
 <?php
 
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
+
 use Manager\AddPageManager;
 header('Content-Type: application/json');
 require __DIR__ . '/../../vendor/autoload.php';
@@ -10,14 +14,18 @@ $info = json_decode(file_get_contents("php://input"),true);
 $searchWord = (string)$info['word'];
 
 $results = $APM->quickSearch($info);
+if(!$results){
+    $results = [[],[]];
+}
+if(!isset($results[0])){
+    $results[0] = [];
+}
+//var_dump($results);
 
 $uniqueNames = [];
-
-if ($results[1]) {
-    foreach ($results[1] as $person) {
-        if(!in_array($person["name"], $uniqueNames)){
-            $uniqueNames[]=$person["name"];
-        }
+foreach ($results[1] as $person) {
+    if(!in_array($person["name"], $uniqueNames)){
+        $uniqueNames[]=$person["name"];
     }
 }
 
@@ -25,9 +33,9 @@ $defNum = 100;
 $pickSes = 0;
 $pickVot = 0;
 
-if($results[0] && sizeof($results[0])>50){
+if(sizeof($results[0])>50){
     $pickSes = 50;
-}else if($results[0]){
+}else{
     $pickSes = sizeof($results[0]);
 }
 

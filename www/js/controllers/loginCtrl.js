@@ -23,7 +23,7 @@ angular.module('app').controller('loginCtrl', ['$rootScope', '$location', '$scop
                     $rootScope.logCheck = false;
                 }
             }else{
-                $location.path('/Cities');
+                $location.path('/Groups/1');
                 $rootScope.logCheck = true;
             }
             });

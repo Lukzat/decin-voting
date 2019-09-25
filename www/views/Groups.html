@@ -2,7 +2,10 @@
     <br><br><br><br>
     
     <div class="row">
+        <!--
         <input style="width: 150px" type="button" class="btn btn-primary" ng-click="addSitting(cityId)" value="Přidat zstupitelstvo">
+        -->
+        <h3 ng-show="!TestValue" style="color: crimson">Jsou k dispozici nová data</h3>
     </div>
     <br><br>
     <div class="row">
@@ -26,7 +29,7 @@
                                 Platné do
                                 </th>
                                 <th width="40%">
-                                Import volebních dat pro jednotlivá zastupitelstva
+                                Import volebních dat ze souboru CSV
                                 </th>
                             </tr>
                         </thead>
@@ -36,9 +39,14 @@
                                 <td>{{item.start}}</td>
                                 <td>{{item.end}}</td>
                                 <td>
+                                    <!--
                                     <div class="row">
-                                        <input type="file" id="trueUploadBtn1" onchange="AddImage1(this.files)" style="display: none;" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
-                                        <input style="width: 140px" type="button" class="btn btn-primary" ng-click="picLoad1(item.id)" value="Zvolit soubor CSV">
+                                        <input ng-disabled="TestValue" type="file" id="trueUploadBtn1" onchange="AddImage1(this.files)" style="display: none;" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                        <input ng-disabled="TestValue" style="width: 140px" type="button" class="btn btn-primary" ng-click="picLoad1(item.id)" value="Nahrát nová data">
+                                    </div></br>
+                                    -->
+                                    <div class="row">
+                                        <input ng-disabled="TestValue" style="width: 140px" type="button" class="btn btn-primary" ng-click="newCSVFunction(item.id)" value="Nahrát nová data">
                                     </div></br>
                                 </td>
                             </tr>

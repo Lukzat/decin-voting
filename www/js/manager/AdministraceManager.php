@@ -42,10 +42,35 @@ class AdministraceManager extends BaseManager {
     //Table 4
         TABLE_NAME_4 = "cities",
         COLUMN_ID_4 = "id",
-        COLUMN_NAME_4 = "name";
+        COLUMN_NAME_4 = "name",
+    //Table 5
+        TABLE_NAME_5 = "checkFilesUploaded",
+        COLUMN_ID_5 = "id",
+        COLUMN_FilUploaded_5 = "filUploaded";
     
     
     
+    public function truncateTables() {
+        $this->database->query("TRUNCATE TABLE "
+                .self::TABLE_NAME);
+        $this->database->query("TRUNCATE TABLE "
+                .self::TABLE_NAME_2);
+    }
+    
+    public function increaseNumFilesUploaded() {
+        $this->database->query("UPDATE "
+                .self::TABLE_NAME_5." SET "
+                .self::COLUMN_FilUploaded_5."=".self::COLUMN_FilUploaded_5." + 1 WHERE "
+                .self::COLUMN_ID_5."=1");
+    }
+    
+    public function getNumFilesUploaded() {
+        $numFiles = array_map('iterator_to_array',$this->database->query("SELECT "
+                .self::COLUMN_FilUploaded_5." FROM "
+                .self::TABLE_NAME_5." WHERE "
+                .self::COLUMN_ID_5."=1")->fetchAll())[0]["filUploaded"];
+        return $numFiles;
+    }
     
     public function addVotedDecision($name,$gname,$decision,$sessionId) {
         $this->database->query("INSERT INTO ".self::TABLE_NAME_2." ("
@@ -57,6 +82,11 @@ class AdministraceManager extends BaseManager {
                 .(string)$gname."','"
                 .(string)$decision."',"
                 .(int)$sessionId.")");
+        return "splněno";
+    }
+    
+    public function addVotedDecision2($arr) {
+        $this->database->table(self::TABLE_NAME_2)->insert($arr);
         return "splněno";
     }
     

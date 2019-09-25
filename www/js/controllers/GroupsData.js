@@ -23,6 +23,11 @@ angular.module('app').factory('GroupsData', ['$http', function ($http) {
         });
     };
     
+    obj.testNewDataOnAPI = function () {
+        return $http.post(serviceBase + 'testNewDataOnAPI.php').then(function (results) {
+            return results.data;
+        });
+    };
     
     obj.processTxtFile = function (x) {
         return $http({
@@ -36,6 +41,11 @@ angular.module('app').factory('GroupsData', ['$http', function ($http) {
         });
     };
     
+    obj.processCSVFileNew = function (url) {
+        return $http.post(serviceBase + 'processCSVFileNew.php',url).then(function (results) {
+            return results.data;
+        });
+    };
     
     return obj;
 }]);

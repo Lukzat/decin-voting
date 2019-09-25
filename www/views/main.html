@@ -396,7 +396,7 @@
                                             <div class="multiselect__select">
 
                                             </div>
-                                            <select ng-change="" style="position: absolute" ng-disabled="jmenoAPrijmeniDisabled" chosen multiple ng-model="NameAndSurname" name="fieldOfVoters" id="jmenSearch" width="300">
+                                            <select ng-change="jmenoAPrijmeniChanged()" style="position: absolute" ng-disabled="jmenoAPrijmeniDisabled" chosen multiple ng-model="NameAndSurname" name="fieldOfVoters" id="jmenSearch" width="300">
                                                 <option ng-repeat="name in uniquePeopleNames" value="{{name}}">{{name}}</option>
                                             </select>
                                             <div tabindex="-1" class="multiselect__content-wrapper" style="display: none; max-height: 300px;">
@@ -411,7 +411,7 @@
                                             </div>
                                         </div>
                                         <div ng-show="isMobile">
-                                            <ui-select ng-change="" multiple ng-model="$parent.NameAndSurname" theme="bootstrap" close-on-select="false" style="width: 300px;" title="Vyberte jednu z možností">
+                                            <ui-select ng-change="jmenoAPrijmeniChanged()" multiple ng-model="$parent.NameAndSurname" theme="bootstrap" close-on-select="false" style="width: 300px;" title="Vyberte jednu z možností">
                                                 <ui-select-match placeholder="Vyberte jednu z možností">{{$item}}</ui-select-match>
                                                 <ui-select-choices repeat="item in uniquePeopleNames">
                                                   {{item}}
@@ -612,7 +612,11 @@
                 <a class="Footer__infoLink">Náměty a přípomínky posílejte na:</a><br>
                 <a class="Footer__infoLink" href="mailto:informatika@mmdecin.cz">informatika@mmdecin.cz</a><br>
                 <a class="Footer__infoLink">2019 Vyvinuto studenty UJEP a společností EasyComp s.r.o.</a><br>
-                <a class="Footer__infoLink">Zdrojové kódy aplikace pod licencí MIT k dispozici na GitHubu.</a>
+                <a class="Footer__infoLink">Zdrojové kódy aplikace pod licencí MIT k dispozici na GitHubu.</a><br>
+                <a class="Footer__infoLink">Podporované prohlížeče: Microsoft Edge, Google Chrome, Mozila Firefox</a>
+                <a class="Footer__infoLink"><img style="width: 25px;height: 25px" ng-src="img/microsoft-edge.png">
+                <img style="width: 25px;height: 25px" ng-src="img/chrome.png">
+                <img style="width: 25px;height: 25px" ng-src="img/firefox.png"></a>
             </div>
     </div>
 </div>

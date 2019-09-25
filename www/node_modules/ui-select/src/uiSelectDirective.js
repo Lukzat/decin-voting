@@ -1,6 +1,6 @@
 uis.directive('uiSelect',
-  ['$document', 'uiSelectConfig', 'uiSelectMinErr', 'uisOffset', '$compile', '$parse', '$timeout',
-  function($document, uiSelectConfig, uiSelectMinErr, uisOffset, $compile, $parse, $timeout) {
+  ['$document', 'uiSelectConfig', 'uiSelectMinErr', 'uisOffset', '$compile', '$parse', '$timeout', '$window',
+  function($document, uiSelectConfig, uiSelectMinErr, uisOffset, $compile, $parse, $timeout, $window) {
 
   return {
     restrict: 'EA',
@@ -206,11 +206,15 @@ uis.directive('uiSelect',
           $select.clickTriggeredSelect = false;
         }
 
-        // See Click everywhere but here event http://stackoverflow.com/questions/12931369
-        $document.on('click', onDocumentClick);
+        // See Click everywhere but here. Similar approach to http://stackoverflow.com/questions/12931369
+        // but using the capture phase instead of bubble phase of the event propagation.
+        //
+        // Using the capture phase avoids problems that araise when event.stopPropatagion()
+        // is called before the event reaches the `document`.
+        $window.document.addEventListener('click', onDocumentClick, true);
 
         scope.$on('$destroy', function() {
-          $document.off('click', onDocumentClick);
+          $window.document.removeEventListener('click', onDocumentClick, true);
         });
 
         // Move transcluded elements to their correct position in main template
@@ -243,6 +247,24 @@ uis.directive('uiSelect',
           transcludedNoChoice.removeAttr('data-ui-select-no-choice'); // Properly handle HTML5 data-attributes
           if (transcludedNoChoice.length == 1) {
             element.querySelectorAll('.ui-select-no-choice').replaceWith(transcludedNoChoice);
+          }
+
+          var transcludedHeader = transcluded.querySelectorAll('.ui-select-header');
+          transcludedHeader.removeAttr('ui-select-header'); // To avoid loop in case directive as attr
+          transcludedHeader.removeAttr('data-ui-select-header'); // Properly handle HTML5 data-attributes
+          if (transcludedHeader.length == 1) {
+            element.querySelectorAll('.ui-select-header').replaceWith(transcludedHeader);
+          } else {
+            element.querySelectorAll('.ui-select-header').remove();
+          }
+
+          var transcludedFooter = transcluded.querySelectorAll('.ui-select-footer');
+          transcludedFooter.removeAttr('ui-select-footer'); // To avoid loop in case directive as attr
+          transcludedFooter.removeAttr('data-ui-select-footer'); // Properly handle HTML5 data-attributes
+          if (transcludedFooter.length == 1) {
+            element.querySelectorAll('.ui-select-footer').replaceWith(transcludedFooter);
+          } else {
+            element.querySelectorAll('.ui-select-footer').remove();
           }
         });
 
@@ -378,7 +400,7 @@ uis.directive('uiSelect',
         };
 
         var opened = false;
-        
+
         scope.calculateDropdownPos = function() {
           if ($select.open) {
             dropdown = angular.element(element).querySelectorAll('.ui-select-dropdown');

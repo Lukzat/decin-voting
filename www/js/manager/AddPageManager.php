@@ -126,13 +126,21 @@ class AddPageManager extends BaseManager {
     
     public function getPersonsBySessions($sessionIds) {
         $personCluster=[];
-        foreach ($sessionIds as $sessionId) {
+        if($sessionIds == "ALL"){
             $personInfo = array_map('iterator_to_array',$this->database->query(
                     "SELECT * FROM "
                     .self::TABLE_NAME_2.
-                    " WHERE "
-                    .self::COLUMN_SESSION_ID."=".(int)$sessionId." ORDER BY " .self::COLUMN_GROUP_NAME_2)->fetchAll());
+                    " ORDER BY " .self::COLUMN_GROUP_NAME_2)->fetchAll());
             $personCluster[] = $personInfo;
+        }else{
+            foreach ($sessionIds as $sessionId) {
+                $personInfo = array_map('iterator_to_array',$this->database->query(
+                        "SELECT * FROM "
+                        .self::TABLE_NAME_2.
+                        " WHERE "
+                        .self::COLUMN_SESSION_ID."=".(int)$sessionId." ORDER BY " .self::COLUMN_GROUP_NAME_2)->fetchAll());
+                $personCluster[] = $personInfo;
+            }
         }
         return $personCluster;
     }
@@ -165,16 +173,27 @@ class AddPageManager extends BaseManager {
     }
     
     public function getSessionsByNewSittings($sittingTypes) {
-        $sessionCluster=[];
-        foreach ($sittingTypes as $sittingType) {
-            $sessionInfo = array_map('iterator_to_array',$this->database->query(
-                    "SELECT * FROM "
-                    .self::TABLE_NAME_5.
-                    " WHERE "
-                    .self::COLUMN_TYPE_5." LIKE '%".$sittingType."%'")->fetchAll());
-            $sessionCluster[] = $sessionInfo;
+        if(sizeof($sittingTypes)==0){
+            $sessionCluster=[];
+                $sessionInfo = array_map('iterator_to_array',$this->database->query(
+                        "SELECT * FROM "
+                        .self::TABLE_NAME_5)->fetchAll());
+                $sessionCluster[] = $sessionInfo;
+            return $sessionCluster;
+        }else{
+            $checkZasedani = False;
+            //echo 'sittingTypes je prázdné';
+            $sessionCluster=[];
+            foreach ($sittingTypes as $sittingType) {
+                $sessionInfo = array_map('iterator_to_array',$this->database->query(
+                        "SELECT * FROM "
+                        .self::TABLE_NAME_5.
+                        " WHERE "
+                        .self::COLUMN_TYPE_5." LIKE '%".$sittingType."%'")->fetchAll());
+                $sessionCluster[] = $sessionInfo;
+            }
+            return $sessionCluster;
         }
-        return $sessionCluster;
     }
     
     public function getSessionsByNewSitting($sittingType) {
@@ -254,6 +273,25 @@ class AddPageManager extends BaseManager {
     
     public function getVotesByPersonNames($name,$sessionId){
         return $result = $this->database->query("SELECT * FROM ".self::TABLE_NAME_2." WHERE sessionId=".(int)$sessionId." AND name='".(string)$name."'");
+    }
+    
+    public function getVotesByPersonName($name){
+        return $result = array_map('iterator_to_array',$this->database->query("SELECT * FROM ".self::TABLE_NAME_2." WHERE ".self::COLUMN_NAME_2."='".(string)$name."'")->fetchAll());
+    }
+    
+    public function getVotesByPS($PSName){
+        $result = array_map('iterator_to_array',$this->database->query("SELECT * FROM ".self::TABLE_NAME_2." WHERE ".self::COLUMN_GROUP_NAME_2."='".(string)$PSName."'")->fetchAll());
+        return $result;
+    }
+    
+    public function getSessionsByType($SesName){
+        $result = array_map('iterator_to_array',$this->database->query("SELECT * FROM ".self::TABLE_NAME." WHERE ".self::COLUMN_TYPE."='".(string)$SesName."'")->fetchAll());
+        return $result;
+    }
+    
+    public function getVotesBySessionId($sessionId){
+        $result = array_map('iterator_to_array',$this->database->query("SELECT * FROM ".self::TABLE_NAME_2." WHERE sessionId=".(int)$sessionId)->fetchAll());
+        return $result;
     }
     
 }
