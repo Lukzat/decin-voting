@@ -41,7 +41,8 @@ class Callback
 			return (new \ReflectionFunction($callable))->getClosure();
 
 		} elseif (is_array($callable) && method_exists($callable[0], $callable[1])) {
-			return (new \ReflectionMethod($callable[0], $callable[1]))->getClosure($callable[0]);
+			return (new \ReflectionMethod($callable[0], $callable[1]))
+				->getClosure(is_object($callable[0]) ? $callable[0] : null);
 		}
 
 		self::check($callable);
@@ -88,7 +89,11 @@ class Callback
 				$file = func_get_arg(5)[1]['file'];
 			}
 			if ($file === __FILE__) {
-				$msg = preg_replace("#^$function\(.*?\): #", '', $message);
+				$msg = $message;
+				if (ini_get('html_errors')) {
+					$msg = html_entity_decode(strip_tags($msg));
+				}
+				$msg = preg_replace("#^$function\(.*?\): #", '', $msg);
 				if ($onError($msg, $severity) !== false) {
 					return;
 				}
@@ -130,7 +135,7 @@ class Callback
 		} elseif (is_string($callable) && $callable[0] === "\0") {
 			return '{lambda}';
 		} else {
-			is_callable($callable, true, $textual);
+			is_callable(is_object($callable) ? [$callable, '__invoke'] : $callable, true, $textual);
 			return $textual;
 		}
 	}

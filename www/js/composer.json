@@ -1,0 +1,36 @@
+{
+  "name": "decin-voting",
+  "description": "Hlasování Děčín",
+  "require": {
+    "php": "^7.3",
+    "tracy/tracy": "^v2.7.0",
+    "easycomp/easy-framework": "^1.0",
+    "easycomp/database": "^1.0",
+    "firebase/php-jwt": "^5.0",
+    "phpmailer/phpmailer": "^6.0",
+    "phpoffice/phpspreadsheet": "^1.10"
+  },
+  "authors": [
+    {
+      "name": "Štěpán Nikolić",
+      "email": "snikolic@easycomp.cz"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {
+      "Manager\\": "manager/",
+      "Utilities\\": "utilities/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git@192.168.11.105:EasyComp/EasyFramework.git"
+    },
+    {
+      "type": "git",
+      "url": "git@192.168.11.105:EasyComp/database.git"
+    }
+  ]
+}

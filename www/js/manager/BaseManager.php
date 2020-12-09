@@ -33,7 +33,7 @@ abstract class BaseManager {
     /**
      * BaseManager constructor */
     public function __construct() {
-        Debugger::enable(Debugger::PRODUCTION, __DIR__ . '/../log'); // Zapnutí Laděnky
+        Debugger::enable(Debugger::DEVELOPMENT, __DIR__ . '/../log'); // Zapnutí Laděnky
         $this->connection = new Connection('mysql:host=172.17.0.1;port=3600;dbname=voting_data;', 'user', 'test');    // Připojení k DB
         $this->cacheMemoryStorage = new MemoryStorage();
         $this->structure = new Structure($this->connection, $this->cacheMemoryStorage);

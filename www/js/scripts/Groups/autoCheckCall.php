@@ -1,122 +1,111 @@
 <?php
 
+ini_set('display_errors', '1');
+ini_set('display_startup_errors', '1');
+error_reporting(E_ALL);
+
 use Manager\AdministraceManager;
+use Tracy\Debugger;
+use Utilities\Functions;
+
 header('Content-Type: application/json');
 require __DIR__ . '/../../vendor/autoload.php';
 
 $APM = new AdministraceManager();
+$F = new Functions();
+
+$log_date = new DateTime();
+
+$log_file_name = 'log_' . $log_date->format('d-m-Y');
+$url = 'https://opendata.mmdecin.cz/api/3/action/package_search?q=hlasovani-zastupitelstva';
+$opts = array(
+    "ssl" => array(
+        "verify_peer" => false,
+        "verify_peer_name" => false,
+    ),
+);
 
 $APM->truncateTables();
-
-$filesUploaded = $APM->getNumFilesUploaded();
-$filesUploaded = 0;
-//$filesUploaded = 5;
-$url = 'https://opendata.mmdecin.cz/api/3/action/package_search?q=hlasovani-zastupitelstva';
-
-$newFileUrl = "none";
-
-$ch = curl_init();
+$ch = curl_init(); // převést do samostátné třídy
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_URL, $url);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 $result = curl_exec($ch);
 curl_close($ch);
 
 $obj = json_decode($result);
-if(!$obj->success){
-    echo json_encode('Nepodařilo se navázat spojení s databází.');
+
+if (!$obj->success) {
+    Debugger::log('Nepodařilo se navázat spojení s APi.', $log_file_name);
+    echo json_encode('Nepodařilo se navázat spojení s APi.');
     exit();
 }
 
-$count = 0;
 foreach ($obj->result->results[0]->resources as $objectOfInterest) {
-    if($objectOfInterest->format == "CSV"){
-        $count++;
-        if(($filesUploaded <= $count) && ($count != 3)){
-            var_dump($objectOfInterest->url);
-            $newFileUrl = $objectOfInterest->url;
-            $sittingId = 30;
-            $votesFile = $newFileUrl;
-            $infoClusters = [];
-            $row = 1;
-            if (($handle = fopen($votesFile, "r")) !== FALSE) {
-              while (($data = fgetcsv($handle, 100000, ";")) !== FALSE) {
-                    $infoCluster = [];
-                $num = count($data);
-                $row++;
-                for ($c=0; $c < $num; $c++) {
-                            $infoCluster[]=$data[$c];
-                }
-                    $infoClusters[]=$infoCluster;
-              }
-              fclose($handle);
-            }
+    $newFileUrl = $objectOfInterest->url; // adressa souboru
+    if ($objectOfInterest->format == "CSV") {
+        $handle = fopen($newFileUrl, "r", false, stream_context_create($opts));
+        if ($handle !== false) {
+            $sittingId = 30; // constanta? jaky ma vyznam
             $uniqueSessionsNames = [];
-            $uniqueSessions=[];
+            $uniqueSessions = [];
             $votesClusters = [];
-            //Filter out unique voting_sessions
-            foreach ($infoClusters as $cluster) {
-                $uniqueSession=[];
-                if(!in_array($cluster[7], $uniqueSessionsNames)){
+            $row = 1;
+            while (($infoClusters = fgetcsv($handle, 100000, ";")) !== false) {
+                if (($fail = $F->is_valid_csv($infoClusters)) !== true) {
+                    echo $newFileUrl . ' ' . $fail;
+                    Debugger::log($newFileUrl . ' ' . $fail, $log_file_name);
+                    break;
+                }
+                if (!in_array($infoClusters[7], $uniqueSessionsNames)) {
                     if (isset($votesCluster)) {
-                        $votesClusters[]=$votesCluster;
+                        $votesClusters[] = $votesCluster;
                     }
-                    $votesCluster=[];
-                    $persNameCompiled = $cluster[1] . " " . $cluster[2];
-                    $votesCluster[]=["name"=>$persNameCompiled,"groupName"=>$cluster[3],"decision"=>$cluster[9]];
-                    $uniqueSessionsNames[]=$cluster[7];
-                    $stringTime = $cluster[5] . " " . $cluster[6];
+                    $votesCluster = [];
+                    $votesCluster[] = [
+                        "name" => $infoClusters[1] . " " . $infoClusters[2],
+                        "groupName" => $infoClusters[3],
+                        "decision" => $infoClusters[9]];
+                    $uniqueSessionsNames[] = $infoClusters[7];
+                    $stringTime = $infoClusters[5] . " " . $infoClusters[6];
                     $dtime = DateTime::createFromFormat("d.m.Y H:i:s", $stringTime);
-                    $timestamp = $dtime->getTimestamp();
-                    $uniqueSession = ["event"=>"","chairman"=>"","state"=>"",
-                        "date"=>$timestamp,"type"=>$cluster[7],"description"=>$cluster[8],
-                        "above_description"=>"","sittings_id"=>$sittingId];
-                    $uniqueSessions[]=$uniqueSession;
-                }else{
-                    $persNameCompiled = $cluster[1] . " " . $cluster[2];
-                    $votesCluster[]=["name"=>$persNameCompiled,"groupName"=>$cluster[3],"decision"=>$cluster[9]];
-                }
-            }
-            for($i=0;$i<sizeof ($uniqueSessions);$i++){
-                $sessionSendData = [$uniqueSessions[$i]["event"],
-                                    $uniqueSessions[$i]["chairman"],
-                                    $uniqueSessions[$i]["state"],
-                                    $uniqueSessions[$i]["date"],
-                                    $uniqueSessions[$i]["type"],
-                                    $uniqueSessions[$i]["description"],
-                                    $uniqueSessions[$i]["above_description"],
-                                    $uniqueSessions[$i]["sittings_id"]];
-                $APM->addVotingSession($sessionSendData);
-
-                $sessionId = $APM->getVotingSessionByEventChairmanState($uniqueSessions[$i]["date"],$sittingId);
-                
-                $temp = [];
-//                var_dump($votesClusters[$i]);
-                if($votesClusters[$i] !== null){
-                    foreach ($votesClusters[$i] as $person) {
-                        $temp[] = [
-                            AdministraceManager::COLUMN_NAME_2 => $person["name"],
-                            AdministraceManager::COLUMN_GROUP_NAME_2 => $person["groupName"],
-                            AdministraceManager::COLUMN_DECISION_2 => $person["decision"],
-                            AdministraceManager::COLUMN_SESSION_ID_2 => $sessionId
-                        ];
-    //                    $APM->addVotedDecision($person["name"],$person["groupName"],$person["decision"],$sessionId);
+                    if ($dtime !== false)
+                        $timestamp = $dtime->getTimestamp();
+                    else {
+                        $timestamp = -1;
+                        Debugger::log($newFileUrl . ' špatná hodnota datumu na řádku: ' . $row, $log_file_name);
                     }
-                    $APM->addVotedDecision2($temp);
+                    $uniqueSessions[] = [
+                        AdministraceManager::COLUMN_EVENT => "",
+                        AdministraceManager::COLUMN_CHAIRMAN => "",
+                        AdministraceManager::COLUMN_STATE => "",
+                        AdministraceManager::COLUMN_DATE => $timestamp,
+                        AdministraceManager::COLUMN_TYPE => $infoClusters[7],
+                        AdministraceManager::COLUMN_DESCRIPTION => $infoClusters[8],
+                        AdministraceManager::COLUMN_ABOVE_DESCRIPTION => "",
+                        AdministraceManager::COLUMN_SITTINGS_ID => $sittingId];
+                } else {
+                    $votesCluster[] = ["name" => $infoClusters[1] . " " . $infoClusters[2], "groupName" => $infoClusters[3], "decision" => $infoClusters[9]];
+                }
+                $row++;
+            }
+            fclose($handle);
+            foreach ($uniqueSessions as $i => $value) {
+                $APM->addVotingSession2($value);
+                $sessionId = $APM->getVotingSessionByEventChairmanState($value["date"], $sittingId);
+                if (isset($votesClusters[$i])) {
+                    foreach ($votesClusters[$i] as &$person) {
+                        $person[AdministraceManager::COLUMN_SESSION_ID_2] = $sessionId;
+                    }
+                    $APM->addVotedDecision2($votesClusters[$i]);
                 }
             }
             $APM->increaseNumFilesUploaded();
-            $filesUploaded+=1;
-            var_dump("Proces souboru dokončen");
-        }
-        if ($count == 3) {
-            $APM->increaseNumFilesUploaded();
-            $filesUploaded+=1;
-            $count+=1;
-        }
-    }
-}
-
-if($newFileUrl == "none"){
-    echo json_encode("Up to date");
+            Debugger::log($newFileUrl . ' proces úspěšně dokončen', $log_file_name);
+        } else
+            Debugger::log($newFileUrl . ' nelze otevřít soubor', $log_file_name);
+    } else
+        Debugger::log($newFileUrl . ' není CSV', $log_file_name);
 }
